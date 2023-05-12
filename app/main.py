@@ -1,15 +1,25 @@
 from datetime import date
+from pathlib import Path
 from urllib.error import HTTPError
 
 from deta import Deta
 from fastapi import FastAPI
 from fastapi import HTTPException
+from fastapi import Request
 from fastapi.encoders import jsonable_encoder
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 
 app = FastAPI()
 deta = Deta()
+
 db = deta.Base('reservations')
+base_path = Path(__file__).parent
+
+templates = Jinja2Templates(directory=base_path / 'templates')
+app.mount('/static', StaticFiles(directory=base_path / 'static'), name='static')
 
 
 class Reservation(BaseModel):
@@ -18,9 +28,11 @@ class Reservation(BaseModel):
     date: date
 
 
-@app.get("/")
-def root():
-    return "Space 🚀 Fuck"
+@app.get('/', response_class=HTMLResponse)
+def index(request: Request):
+    return templates.TemplateResponse('index.jinja', {
+        'request': request
+    })
 
 
 @app.get('/dates/')

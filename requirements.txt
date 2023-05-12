@@ -1,3 +1,4 @@
 deta
 fastapi
+jinja2
 uvicorn
