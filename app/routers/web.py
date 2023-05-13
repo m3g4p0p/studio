@@ -83,6 +83,18 @@ async def post_form(
     action: Action = Form(),
     reservation: Reservation = Depends(Reservation.form),
 ):
+    redirect_date = date
+
+    if action is Action.PUT and reservation.band:
+        data = jsonable_encoder(reservation)
+        key = str(reservation.date)
+        redirect_date = reservation.date
+
+        if date != reservation.date:
+            db.insert(data, key)
+        else:
+            db.put(data, key)
+
     if action is Action.DELETE or \
             not reservation.band or \
             date != reservation.date:
@@ -98,5 +110,7 @@ async def post_form(
     redirect_url = request.url_for('calendar')
 
     return RedirectResponse(with_query(
-        str(redirect_url), year=date.year, month=date.month,
+        str(redirect_url),
+        year=redirect_date.year,
+        month=redirect_date.month,
     ), status_code=302)
