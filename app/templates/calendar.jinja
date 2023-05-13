@@ -1,0 +1,28 @@
+{% extends "base.jinja" %}
+
+{% block body %}
+<table>
+  <thead>
+    <tr>
+      {% for name in day_name %}
+        <th>{{ name }}</th>
+      {% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for week in calendar %}
+      <tr>
+        {% for date in week %}
+          <td>
+            {% if date == today %}
+              <strong>{{ date.day }}</strong>
+            {% else %}
+              {{ date.day }}
+            {% endif %}
+          </td>
+        {% endfor %}
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock body %}
