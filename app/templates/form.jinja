@@ -1,7 +1,13 @@
 {% extends "base.jinja" %}
 
 {% block body %}
-  <h1>Reservation</h1>
+  <h1>
+    Reservation
+    {% if reservation.band %}
+      for {{ reservation.band }}
+    {% endif %}
+    on {{ reservation.date }}
+  </h1>
 
   <form method="post">
     <label>
