@@ -2,3 +2,9 @@
 Todo:
   ☐ Auth
   ☐ DB Dependency
+  ☐ Calendar
+    ☐ Switch month
+    ☐ Path param
+    ☐ Add / edit form
+    ☐ Band info
+

@@ -1,3 +1,4 @@
+import typing as t
 from datetime import date
 
 from deta import Deta
@@ -11,3 +12,8 @@ class Reservation(BaseModel):
 
     band: str
     date: date
+    key: t.Optional[str] = None
+
+    @classmethod
+    def from_dict(cls, kwargs):
+        return cls(**kwargs)
