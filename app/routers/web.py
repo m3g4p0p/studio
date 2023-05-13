@@ -17,7 +17,6 @@ from fastapi.templating import Jinja2Templates
 from .. import base_path
 from ..dependencies import Reservation
 from ..dependencies import db
-from ..util import with_query
 
 
 class Action(str, enum.Enum):
@@ -44,6 +43,7 @@ def index(request: Request):
 
 
 @router.get('/calendar')
+@router.get('/calendar/{year}/{month}')
 async def calendar(
     request: Request,
     year: t.Optional[int] = None,
@@ -108,10 +108,8 @@ async def post_form(
 
         db.put(data, key)
 
-    redirect_url = request.url_for('calendar')
-
-    return RedirectResponse(with_query(
-        str(redirect_url),
+    return RedirectResponse(request.url_for(
+        'calendar',
         year=redirect_date.year,
         month=redirect_date.month,
     ), status_code=302)

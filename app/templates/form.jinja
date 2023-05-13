@@ -4,9 +4,9 @@
   <h1>
     Reservation
     {% if reservation.band %}
-      for {{ reservation.band }}
+      for <em>{{ reservation.band }}</em>
     {% endif %}
-    on {{ reservation.date }}
+    on <em>{{ reservation.date }}</em>
   </h1>
 
   <form method="post">
