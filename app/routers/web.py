@@ -24,6 +24,7 @@ class Action(str, enum.Enum):
 
     PUT = 'put'
     DELETE = 'delete'
+    CANCEL = 'cancel'
 
 
 router = APIRouter(default_response_class=HTMLResponse)

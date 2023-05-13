@@ -18,6 +18,10 @@ button {
   margin-top: 2em;
 }
 
+.actions button:first-child {
+  margin-right: auto;
+}
+
 .actions button + button {
   margin-left: 1em;
 }
