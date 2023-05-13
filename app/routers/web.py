@@ -1,3 +1,4 @@
+import enum
 import typing as t
 from calendar import Calendar
 from calendar import day_name
@@ -5,14 +6,25 @@ from datetime import date as pydate
 
 from fastapi import APIRouter
 from fastapi import Depends
+from fastapi import Form
 from fastapi import Request
+from fastapi.encoders import jsonable_encoder
 from fastapi.responses import HTMLResponse
+from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from .. import base_path
 from ..dependencies import Reservation
 from ..dependencies import db
+from ..util import with_query
+
+
+class Action(str, enum.Enum):
+
+    PUT = 'put'
+    DELETE = 'delete'
+
 
 router = APIRouter(default_response_class=HTMLResponse)
 templates = Jinja2Templates(directory=base_path / 'templates')
@@ -54,11 +66,37 @@ async def calendar(
 
 
 @router.get('/calendar/{date}')
-async def get_date(
+async def get_form(
     request: Request,
-    reservation: Reservation = Depends(Reservation.fetch),
+    reservation: Reservation = Depends(Reservation.get),
 ):
     return templates.TemplateResponse('form.jinja', {
         'request': request,
         'reservation': reservation,
     })
+
+
+@router.post('/calendar/{date}')
+async def post_form(
+    request: Request,
+    date: pydate,
+    action: Action = Form(),
+    reservation: Reservation = Depends(Reservation.form),
+):
+    if action is Action.DELETE or \
+            not reservation.band or \
+            date != reservation.date:
+        db.delete(key=str(date))
+
+    if action is Action.PUT and reservation.band:
+        data = jsonable_encoder(reservation)
+        key = str(reservation.date)
+        date = reservation.date
+
+        db.put(data, key)
+
+    redirect_url = request.url_for('calendar')
+
+    return RedirectResponse(with_query(
+        str(redirect_url), year=date.year, month=date.month,
+    ), status_code=302)

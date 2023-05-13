@@ -6,7 +6,7 @@
   <form method="post">
     <label>
       <p>Date</p>
-      <input type="date" name="band" value="{{ reservation.date }}">
+      <input type="date" name="date" value="{{ reservation.date }}">
     </label>
 
     <label>
@@ -14,7 +14,7 @@
       <input type="text" name="band" value="{{ reservation.band }}">
     </label>
 
-    <input type="hidden" name="key" value="{{ reservation.key or '' }}">
+    <input type="hidden" name="key" value="{{ reservation.key or reservation.date }}">
 
     <div class="actions">
       <button value="delete" name="action">Delete</button>

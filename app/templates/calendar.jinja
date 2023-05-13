@@ -16,7 +16,7 @@
       <tr>
         {% for date in week %}
           <td>
-            <a href="{{ url_for('get_date', date=date) }}">
+            <a href="{{ url_for('get_form', date=date) }}">
               {% if date.month == month %}
                 {% if date == today %}
                   <strong>{{ date.day }}</strong>
