@@ -14,10 +14,14 @@
       <tr>
         {% for date in week %}
           <td>
-            {% if date == today %}
-              <strong>{{ date.day }}</strong>
+            {% if date.month == today.month %}
+              {% if date == today %}
+                <strong>{{ date.day }}</strong>
+              {% else %}
+                {{ date.day }}
+              {% endif %}
             {% else %}
-              {{ date.day }}
+              <small>{{ date.day }}</small>
             {% endif %}
           </td>
         {% endfor %}
