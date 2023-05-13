@@ -29,6 +29,8 @@
 
               {% if date in reservations %}
                 <br><small>{{ reservations[date].band }}</small>
+              {% else %}
+                <br>&emsp;
               {% endif %}
             </a>
           </td>

@@ -66,7 +66,7 @@ async def calendar(
     })
 
 
-@router.get('/calendar/{date}')
+@router.get('/reservation/{date}')
 async def get_form(
     request: Request,
     reservation: Reservation = Depends(Reservation.get),
@@ -77,7 +77,7 @@ async def get_form(
     })
 
 
-@router.post('/calendar/{date}')
+@router.post('/reservation/{date}')
 async def post_form(
     request: Request,
     date: pydate,

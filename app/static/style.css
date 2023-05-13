@@ -25,3 +25,7 @@ button {
 .actions button + button {
   margin-left: 1em;
 }
+
+td {
+  vertical-align: top;
+}
