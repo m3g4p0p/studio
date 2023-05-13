@@ -1,3 +1,4 @@
+import typing as t
 from calendar import Calendar
 from calendar import day_name
 from datetime import date
@@ -29,12 +30,12 @@ def index(request: Request):
 
 
 @router.get('/calendar')
-async def calendar(request: Request):
+async def calendar(
+    request: Request,
+    year: t.Optional[int] = None,
+    month: t.Optional[int] = None,
+):
     today = date.today()
-
-    calendar = Calendar().monthdatescalendar(
-        today.year, today.month,
-    )
 
     reservations = dict(map(
         Reservation.from_item, db.fetch().items),
@@ -43,7 +44,9 @@ async def calendar(request: Request):
     return templates.TemplateResponse('calendar.jinja', {
         'request': request,
         'today': today,
+        'month': month or today.month,
+        'year': year or today.year,
         'day_name': day_name,
-        'calendar': calendar,
+        'calendar': Calendar(),
         'reservations': reservations,
     })

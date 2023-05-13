@@ -10,11 +10,11 @@
     </tr>
   </thead>
   <tbody>
-    {% for week in calendar %}
+    {% for week in calendar.monthdatescalendar(year, month) %}
       <tr>
         {% for date in week %}
           <td>
-            {% if date.month == today.month %}
+            {% if date.month == month %}
               {% if date == today %}
                 <strong>{{ date.day }}</strong>
               {% else %}
