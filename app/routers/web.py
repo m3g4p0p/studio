@@ -1,9 +1,10 @@
 import typing as t
 from calendar import Calendar
 from calendar import day_name
-from datetime import date
+from datetime import date as pydate
 
 from fastapi import APIRouter
+from fastapi import Depends
 from fastapi import Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
@@ -35,10 +36,10 @@ async def calendar(
     year: t.Optional[int] = None,
     month: t.Optional[int] = None,
 ):
-    today = date.today()
+    today = pydate.today()
 
     reservations = dict(map(
-        Reservation.from_item, db.fetch().items),
+        Reservation.as_pair, db.fetch().items),
     )
 
     return templates.TemplateResponse('calendar.jinja', {
@@ -49,4 +50,15 @@ async def calendar(
         'day_name': day_name,
         'calendar': Calendar(),
         'reservations': reservations,
+    })
+
+
+@router.get('/calendar/{date}')
+async def get_date(
+    request: Request,
+    reservation: Reservation = Depends(Reservation.fetch),
+):
+    return templates.TemplateResponse('form.jinja', {
+        'request': request,
+        'reservation': reservation,
     })

@@ -1,6 +1,8 @@
 {% extends "base.jinja" %}
 
 {% block body %}
+<h1>{{ year }}-{{ month }}</h1>
+
 <table>
   <thead>
     <tr>
@@ -14,19 +16,21 @@
       <tr>
         {% for date in week %}
           <td>
-            {% if date.month == month %}
-              {% if date == today %}
-                <strong>{{ date.day }}</strong>
+            <a href="{{ url_for('get_date', date=date) }}">
+              {% if date.month == month %}
+                {% if date == today %}
+                  <strong>{{ date.day }}</strong>
+                {% else %}
+                  {{ date.day }}
+                {% endif %}
               {% else %}
-                {{ date.day }}
+                <small>{{ date.day }}</small>
               {% endif %}
-            {% else %}
-              <small>{{ date.day }}</small>
-            {% endif %}
 
-            {% if date in reservations %}
-              <br><small>{{ reservations[date].band }}</small>
-            {% endif %}
+              {% if date in reservations %}
+                <br><small>{{ reservations[date].band }}</small>
+              {% endif %}
+            </a>
           </td>
         {% endfor %}
       </tr>

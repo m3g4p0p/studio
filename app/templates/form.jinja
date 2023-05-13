@@ -1,0 +1,24 @@
+{% extends "base.jinja" %}
+
+{% block body %}
+  <h1>Reservation</h1>
+
+  <form method="post">
+    <label>
+      <p>Date</p>
+      <input type="date" name="band" value="{{ reservation.date }}">
+    </label>
+
+    <label>
+      <p>Band</p>
+      <input type="text" name="band" value="{{ reservation.band }}">
+    </label>
+
+    <input type="hidden" name="key" value="{{ reservation.key or '' }}">
+
+    <div class="actions">
+      <button value="delete" name="action">Delete</button>
+      <button value="put" name="action">Save</button>
+    </div>
+</form>
+{% endblock body %}
