@@ -26,14 +26,18 @@ def index(request: Request):
 async def calendar(request: Request):
     today = date.today()
 
+    calendar = Calendar().monthdatescalendar(
+        today.year, today.month,
+    )
+
+    reservations = dict(map(
+        Reservation.from_item, db.fetch().items),
+    )
+
     return templates.TemplateResponse('calendar.jinja', {
         'request': request,
         'today': today,
-        'reservations': list(map(
-            Reservation.from_dict, db.fetch().items,
-        )),
-        'calendar': Calendar().monthdatescalendar(
-            today.year, today.month,
-        ),
         'day_name': day_name,
+        'calendar': calendar,
+        'reservations': reservations,
     })

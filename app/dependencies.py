@@ -15,5 +15,6 @@ class Reservation(BaseModel):
     key: t.Optional[str] = None
 
     @classmethod
-    def from_dict(cls, kwargs):
-        return cls(**kwargs)
+    def from_item(cls, kwargs):
+        instance = cls(**kwargs)
+        return instance.date, instance
