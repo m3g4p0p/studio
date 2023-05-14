@@ -1,5 +1,4 @@
 import enum
-import typing as t
 from calendar import Calendar
 from calendar import day_name
 from datetime import date as pydate
@@ -15,6 +14,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from .. import base_path
+from ..dependencies import CalendarMonth
 from ..dependencies import Reservation
 from ..dependencies import db
 
@@ -43,11 +43,18 @@ def index(request: Request):
 
 
 @router.get('/calendar')
+async def calendar_today(request: Request):
+    today = pydate.today()
+
+    return RedirectResponse(request.url_for(
+        'calendar', year=today.year, month=today.month,
+    ))
+
+
 @router.get('/calendar/{year}/{month}')
 async def calendar(
     request: Request,
-    year: t.Optional[int] = None,
-    month: t.Optional[int] = None,
+    current: CalendarMonth = Depends(),
 ):
     today = pydate.today()
 
@@ -58,8 +65,7 @@ async def calendar(
     return templates.TemplateResponse('calendar.jinja', {
         'request': request,
         'today': today,
-        'month': month or today.month,
-        'year': year or today.year,
+        'current': current,
         'day_name': day_name,
         'calendar': Calendar(),
         'reservations': reservations,

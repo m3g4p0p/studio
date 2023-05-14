@@ -1,7 +1,7 @@
 {% extends "base.jinja" %}
 
 {% block body %}
-<h1>{{ year }}-{{ month }}</h1>
+<h1>{{ current.year }}-{{ current.month }}</h1>
 
 <table>
   <thead>
@@ -12,14 +12,14 @@
     </tr>
   </thead>
   <tbody>
-    {% for week in calendar.monthdatescalendar(year, month) %}
+    {% for week in calendar.monthdatescalendar(*current) %}
       <tr>
         {% for date in week %}
           <td>
             <a
               href="{{ url_for('get_form', date=date) }}"
               data-day="{{ day_name[loop.index - 1] }}">
-              {% if date.month == month %}
+              {% if date.month == current.month %}
                 {% if date == today %}
                   <strong>{{ date.day }}</strong>
                 {% else %}

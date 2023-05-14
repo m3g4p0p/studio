@@ -42,3 +42,20 @@ class Reservation(BaseModel):
     async def form(cls, request: Request):
         data = dict(await request.form())
         return cls.from_dict(data)
+
+
+class CalendarMonth(t.NamedTuple):
+
+    year: int
+    month: int
+
+    def __add__(self, value: int):
+        month = self.month + value
+
+        return self._replace(
+            year=self.year + month // 12,
+            month=month % 12,
+        )
+
+    def __sub__(self, value: int):
+        return self.__add__(-value)
