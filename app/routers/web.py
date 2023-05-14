@@ -29,7 +29,6 @@ class Action(str, enum.Enum):
 router = APIRouter(default_response_class=HTMLResponse)
 templates = Jinja2Templates(directory=base_path / 'templates')
 
-
 router.mount('/static', StaticFiles(
     directory=base_path / 'static'), name='static',
 )
