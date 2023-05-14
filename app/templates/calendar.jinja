@@ -1,5 +1,9 @@
 {% extends "base.jinja" %}
 
+{% macro classnames() -%}
+  {% for name, value in kwargs|items if value %}{{ name }} {% endfor %}
+{%- endmacro %}
+
 {% block body %}
 <h1>
   <a href="{{ url_for('calendar', **(current - 1)._asdict()) }}" title="Previous">&lt;&lt;</a>
@@ -22,23 +26,21 @@
           <td>
             <a
               href="{{ url_for('get_form', date=date) }}"
-              data-day="{{ day_name[loop.index - 1] }}">
-              {% if date.month == current.month %}
-                {% if date == today %}
-                  <strong>{{ date.day }}</strong>
-                {% else %}
-                  {{ date.day }}
-                {% endif %}
-              {% else %}
-                <small>{{ date.day }}</small>
-              {% endif %}
-
-              {% if date in reservations %}
-                <br><small>{{ reservations[date].band }}</small>
-              {% else %}
-                <br>&emsp;
-              {% endif %}
+              class="{{ classnames(
+                bold=date == today,
+                small=date.month != current.month,
+              ) }}"
+              data-day="{{ day_name[loop.index0] }}">
+              {{ date.day }}
             </a>
+
+            <small class="band">
+              {% if date in reservations %}
+                {{ reservations[date].band }}
+              {% else %}
+                &mdash;
+              {% endif %}
+            </small>
           </td>
         {% endfor %}
       </tr>
