@@ -32,15 +32,17 @@
               ) }}"
               data-day="{{ day_name[loop.index0] }}">
               {{ date.day }}
-            </a>
 
-            <small class="reservation">
-              {% if date in reservations %}
-                {{ reservations[date].band|truncate(32) }}
-              {% else %}
-                &mdash;
-              {% endif %}
-            </small>
+              <div class="reservation">
+                <small>
+                  {% if date in reservations %}
+                    {{ reservations[date].band|truncate(32) }}
+                  {% else %}
+                    &mdash;
+                  {% endif %}
+                </small>
+              </div>
+            </a>
           </td>
         {% endfor %}
       </tr>
