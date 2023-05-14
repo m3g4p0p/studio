@@ -95,6 +95,11 @@ th {
   font-size: small;
 }
 
+.reserved,
+.reserved:visited {
+  color: cyan;
+}
+
 .reservation {
   margin-top: 1em;
   color: white;

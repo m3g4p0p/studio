@@ -29,6 +29,7 @@
               class="{{ classnames(
                 bold=date == today,
                 small=date.month != current.month,
+                reserved=date in reservations,
               ) }}"
               data-day="{{ day_name[loop.index0] }}">
               {{ date.day }}
