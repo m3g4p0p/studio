@@ -1,0 +1,10 @@
+@font-face {
+  font-family: "X Typewriter";
+  src: url("fonts/XTypewriter-Regular.ttf");
+}
+
+@font-face {
+  font-family: "X Typewriter";
+  src: url("fonts/XTypewriter-Bold.ttf");
+  font-weight: bold;
+}
