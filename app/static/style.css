@@ -29,3 +29,23 @@ button {
 td {
   vertical-align: top;
 }
+
+@media screen and (max-width: 768px) {
+  thead {
+    display: none;
+  }
+
+  tr,
+  td {
+    display: block;
+  }
+
+  tr + tr,
+  td + td {
+    margin-top: 1em;
+  }
+
+  td a::before {
+    content: attr(data-day);
+  }
+}

@@ -101,13 +101,6 @@ async def post_form(
             date != reservation.date:
         db.delete(key=str(date))
 
-    if action is Action.PUT and reservation.band:
-        data = jsonable_encoder(reservation)
-        key = str(reservation.date)
-        date = reservation.date
-
-        db.put(data, key)
-
     return RedirectResponse(request.url_for(
         'calendar',
         year=redirect_date.year,
