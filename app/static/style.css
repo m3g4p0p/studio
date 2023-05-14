@@ -20,16 +20,17 @@ button {
 
 .actions {
   display: flex;
+  flex-direction: row-reverse;
   justify-content: end;
   margin-top: 2em;
 }
 
-.actions button:first-child {
+.actions button:last-child {
   margin-right: auto;
 }
 
 .actions button + button {
-  margin-left: 1em;
+  margin-right: 1em;
 }
 
 h1 {
