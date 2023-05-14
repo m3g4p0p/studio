@@ -34,9 +34,9 @@
               {{ date.day }}
             </a>
 
-            <small class="band">
+            <small class="reservation">
               {% if date in reservations %}
-                {{ reservations[date].band }}
+                {{ reservations[date].band|truncate(32) }}
               {% else %}
                 &mdash;
               {% endif %}
