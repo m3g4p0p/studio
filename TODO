@@ -3,7 +3,7 @@ Todo:
   ☐ Auth
   ☐ DB Dependency
   ☐ Calendar
-    ☐ Switch month
+    ✔ Switch month @done(23-05-14 19:12)
     ✔ Path params @done(23-05-14 12:09)
     ✔ Add / edit form @done(23-05-14 00:34)
     ☐ Form validation errors (WTForms?)

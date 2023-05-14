@@ -1,7 +1,11 @@
 {% extends "base.jinja" %}
 
 {% block body %}
-<h1>{{ current.year }}-{{ current.month }}</h1>
+<h1>
+  <a href="{{ url_for('calendar', **(current - 1)._asdict()) }}" title="Previous">&lt;&lt;</a>
+  {{ current.year }}-{{ current.month }}
+  <a href="{{ url_for('calendar', **(current + 1)._asdict()) }}" title="Next">&gt;&gt;</a>
+</h1>
 
 <table>
   <thead>

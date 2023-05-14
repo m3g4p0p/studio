@@ -1,3 +1,4 @@
+body,
 form {
   display: inline-block;
 }
@@ -24,6 +25,15 @@ button {
 
 .actions button + button {
   margin-left: 1em;
+}
+
+h1 {
+  display: flex;
+  justify-content: space-between;
+}
+
+h1 a {
+  text-decoration: none;
 }
 
 td {
