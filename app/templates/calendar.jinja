@@ -27,8 +27,8 @@
             <a
               href="{{ url_for('get_form', date=date) }}"
               class="{{ classnames(
-                bold=date == today,
-                small=date.month != current.month,
+                today=date == today,
+                other=date.month != current.month,
                 reserved=date in reservations,
               ) }}"
               data-day="{{ day_name[loop.index0] }}">

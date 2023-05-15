@@ -1,10 +1,12 @@
 @font-face {
   font-family: "X Typewriter";
-  src: url("fonts/XTypewriter-Regular.ttf");
+  src: url("fonts/XTypewriter-Regular.ttf") format('truetype'),
+    url("fonts/XTypewriter-Regular.otf") format('opentype');
 }
 
 @font-face {
   font-family: "X Typewriter";
-  src: url("fonts/XTypewriter-Bold.ttf");
+  src: url("fonts/XTypewriter-Bold.ttf") format('truetype'),
+    url("fonts/XTypewriter-Bold.otf") format('opentype');
   font-weight: bold;
 }

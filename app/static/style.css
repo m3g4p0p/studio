@@ -87,12 +87,20 @@ th {
   vertical-align: top;
 }
 
-.bold {
+.today {
   font-weight: bold;
 }
 
-.small {
-  font-size: small;
+.other {
+  color: blueviolet;
+}
+
+.other:visited {
+  color: blueviolet;
+}
+
+.other:active {
+  color: fuchsia;
 }
 
 .reserved,
