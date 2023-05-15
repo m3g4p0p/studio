@@ -17,6 +17,7 @@ from .. import base_path
 from ..dependencies import CalendarMonth
 from ..dependencies import Reservation
 from ..dependencies import db
+from ..patches import PatchedRoute
 
 
 class Action(str, enum.Enum):
@@ -26,7 +27,11 @@ class Action(str, enum.Enum):
     CANCEL = 'cancel'
 
 
-router = APIRouter(default_response_class=HTMLResponse)
+router = APIRouter(
+    default_response_class=HTMLResponse,
+    route_class=PatchedRoute,
+)
+
 templates = Jinja2Templates(directory=base_path / 'templates')
 
 router.mount('/static', StaticFiles(
