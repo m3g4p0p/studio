@@ -11,13 +11,14 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.responses import HTMLResponse
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
 
 from .. import base_path
+from ..auth import authenticate
 from ..dependencies import CalendarMonth
 from ..dependencies import Reservation
 from ..dependencies import db
 from ..patches import PatchedRoute
+from ..templating import templates
 
 
 class Action(str, enum.Enum):
@@ -30,9 +31,8 @@ class Action(str, enum.Enum):
 router = APIRouter(
     default_response_class=HTMLResponse,
     route_class=PatchedRoute,
+    dependencies=[Depends(authenticate)],
 )
-
-templates = Jinja2Templates(directory=base_path / 'templates')
 
 router.mount('/static', StaticFiles(
     directory=base_path / 'static'), name='static',
