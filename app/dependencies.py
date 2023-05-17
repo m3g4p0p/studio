@@ -59,3 +59,6 @@ class CalendarMonth(t.NamedTuple):
 
     def __sub__(self, value: int):
         return self.__add__(-value)
+
+    def __str__(self) -> str:
+        return f'{self.year}-{self.month}'

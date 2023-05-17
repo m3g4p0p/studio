@@ -13,10 +13,7 @@ body {
   font-family: 'X Typewriter', 'Courier New', Courier, monospace;
 }
 
-a {
-  color: fuchsia;
-}
-
+a,
 a:visited {
   color: fuchsia;
 }
@@ -91,10 +88,7 @@ th {
   font-weight: bold;
 }
 
-.other {
-  color: blueviolet;
-}
-
+.other,
 .other:visited {
   color: blueviolet;
 }

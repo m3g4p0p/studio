@@ -1,5 +1,9 @@
 {% extends "base.jinja" %}
 
+{% block title %}
+  {{ super() }} | {{ reservation.date }}
+{% endblock title %}
+
 {% block body %}
   <h1>
     Reservation
