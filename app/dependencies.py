@@ -61,4 +61,4 @@ class CalendarMonth(t.NamedTuple):
         return self.__add__(-value)
 
     def __str__(self) -> str:
-        return f'{self.year}-{self.month}'
+        return f'{self.year}-{self.month:02}'
