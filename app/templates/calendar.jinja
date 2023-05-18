@@ -9,21 +9,23 @@
 {% endblock title %}
 
 {% block body %}
-<h1>
-  <a
-    href="{{ url_for('calendar', **(current - 1)._asdict()) }}"
-    title="Previous"
-    class="prev"
-  >&lt;&lt;</a>
+<nav>
+  <h1>
+    <a
+      href="{{ url_for('calendar', **(current - 1)._asdict()) }}"
+      title="Previous"
+      class="prev"
+    >&lt;&lt;</a>
 
-  <span>{{ current }}</span>
+    <span>{{ current }}</span>
 
-  <a
-    href="{{ url_for('calendar', **(current + 1)._asdict()) }}"
-    title="Next"
-    class="next"
-  >&gt;&gt;</a>
-</h1>
+    <a
+      href="{{ url_for('calendar', **(current + 1)._asdict()) }}"
+      title="Next"
+      class="next"
+    >&gt;&gt;</a>
+  </h1>
+</nav>
 
 <table>
   <thead>

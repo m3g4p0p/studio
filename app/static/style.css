@@ -137,6 +137,13 @@ th {
     width: 100%;
   }
 
+  nav {
+    position: sticky;
+    padding: 1em 0;
+    top: 0;
+    background: linear-gradient(to bottom, black 80%, transparent);
+  }
+
   thead {
     display: none;
   }
