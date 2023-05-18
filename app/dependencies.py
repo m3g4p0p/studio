@@ -53,8 +53,8 @@ class CalendarMonth(t.NamedTuple):
         month = self.month + value
 
         return self._replace(
-            year=self.year + month // 12,
-            month=month % 12,
+            year=self.year + (month - 1) // 12,
+            month=month % 12 or 12,
         )
 
     def __sub__(self, value: int):
