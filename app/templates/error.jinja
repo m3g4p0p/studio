@@ -2,4 +2,8 @@
 
 {% block body %}
   <h1>{{ reason }} 💀</h1>
+
+  {% for error in errors %}
+    <p>{{ error.loc[1]|title }} {{ error.msg }}</p>
+  {% endfor %}
 {% endblock body %}

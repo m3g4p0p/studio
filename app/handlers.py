@@ -1,9 +1,13 @@
 import typing as t
 from functools import update_wrapper
+from http import HTTPStatus
 from urllib.error import HTTPError
 
 from fastapi import Request
+from fastapi import status
 from fastapi.exception_handlers import http_exception_handler
+from fastapi.exception_handlers import request_validation_exception_handler
+from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException
 
 from .templating import templates
@@ -16,6 +20,9 @@ def html_only(handler: t.Callable):
 
         if isinstance(exc, HTTPException):
             return await http_exception_handler(request, exc)
+
+        if isinstance(exc, RequestValidationError):
+            return await request_validation_exception_handler(request, exc)
 
         raise exc
 
@@ -36,3 +43,16 @@ def handle_http_exception(request: Request, exc: HTTPException):
         'request': request,
         'reason': exc.detail,
     }, exc.status_code, exc.headers)
+
+
+@html_only
+def handle_unprocessable_entity(
+        request: Request, exc: RequestValidationError):
+    status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    reason = HTTPStatus(status_code).phrase
+
+    return templates.TemplateResponse('error.jinja', {
+        'request': request,
+        'reason': reason,
+        'errors': exc.errors(),
+    }, status_code)
