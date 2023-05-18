@@ -70,14 +70,6 @@ h1 a {
   text-decoration: none;
 }
 
-h1 a:first-child {
-  float: left;
-}
-
-h1 a:last-child {
-  float: right;
-}
-
 td a {
   display: block;
   width: 6em;
@@ -87,6 +79,14 @@ td,
 th {
   padding: 5px;
   vertical-align: top;
+}
+
+.prev {
+  float: left;
+}
+
+.next {
+  float: right;
 }
 
 .today {
