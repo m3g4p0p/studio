@@ -46,6 +46,12 @@ def index(request: Request):
     })
 
 
+@router.get('/error')
+def error(request: Request):
+    from fastapi.exceptions import HTTPException
+    raise HTTPException(400)
+
+
 @router.get('/calendar')
 async def calendar_today(request: Request):
     today = pydate.today()

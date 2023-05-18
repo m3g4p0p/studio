@@ -1,6 +1,7 @@
 
 Todo:
   ☐ Auth
+    ☐ Feature switch / optional dependency
   ☐ DB Dependency
   ☐ Calendar
     ✔ Switch month @done(23-05-14 19:12)
@@ -14,4 +15,9 @@ Todo:
     ☐ Multiple reservations / date
     ☐ URL date format
     ☐ Comments
+  ☐ Exceptions
+    ☐ Check accept header
+    ☐ Template for starlette HTTP exceptiona
+
+
 
