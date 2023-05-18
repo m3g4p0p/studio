@@ -1,4 +1,5 @@
 import typing as t
+from calendar import Calendar
 from datetime import date as pydate
 
 from deta import Deta
@@ -48,13 +49,14 @@ class CalendarMonth(t.NamedTuple):
 
     year: int
     month: int
+    _calendar = Calendar()
 
     def __add__(self, value: int):
         month = self.month + value
 
         return self._replace(
-            year=self.year + month // 12,
-            month=month % 12,
+            year=self.year + (month - 1) // 12,
+            month=month % 12 or 12,
         )
 
     def __sub__(self, value: int):
@@ -62,3 +64,8 @@ class CalendarMonth(t.NamedTuple):
 
     def __str__(self) -> str:
         return f'{self.year}-{self.month:02}'
+
+    def month_dates(self):
+        return self._calendar.monthdatescalendar(
+            self.year, self.month,
+        )

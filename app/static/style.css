@@ -1,5 +1,9 @@
 @import url("fonts.css");
 
+:root {
+  --background-transparent: rgba(255, 255, 255, .1);
+}
+
 html {
   display: flex;
   color: white;
@@ -70,12 +74,8 @@ h1 a {
   text-decoration: none;
 }
 
-h1 a:first-child {
-  float: left;
-}
-
-h1 a:last-child {
-  float: right;
+td {
+  background: var(--background-transparent);
 }
 
 td a {
@@ -87,6 +87,14 @@ td,
 th {
   padding: 5px;
   vertical-align: top;
+}
+
+.prev {
+  float: left;
+}
+
+.next {
+  float: right;
 }
 
 .today {
@@ -127,8 +135,12 @@ th {
     display: none;
   }
 
-  tr + tr {
-    border-top: 1px solid white;
+  td {
+    padding: 1em;
+  }
+
+  tr {
+    border: 1px solid white;
   }
 
   tr,
@@ -136,13 +148,20 @@ th {
     display: block;
   }
 
-  td,
+  td + td {
+    margin-top: 1px;
+  }
+
   tr + tr {
     margin-top: 1em;
   }
 
   td a {
-    display: inline;
+    width: 100%;
+  }
+
+  td a:active {
+    transform: translateX(1em);
   }
 
   td a::before {

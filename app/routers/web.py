@@ -1,5 +1,5 @@
 import enum
-from calendar import Calendar
+from calendar import IllegalMonthError
 from calendar import day_name
 from datetime import date as pydate
 
@@ -7,17 +7,20 @@ from fastapi import APIRouter
 from fastapi import Depends
 from fastapi import Form
 from fastapi import Request
+from fastapi import status
 from fastapi.encoders import jsonable_encoder
+from fastapi.exceptions import HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
 
 from .. import base_path
+from ..auth import authenticate
 from ..dependencies import CalendarMonth
 from ..dependencies import Reservation
 from ..dependencies import db
 from ..patches import PatchedRoute
+from ..templating import templates
 
 
 class Action(str, enum.Enum):
@@ -28,11 +31,10 @@ class Action(str, enum.Enum):
 
 
 router = APIRouter(
-    default_response_class=HTMLResponse,
     route_class=PatchedRoute,
+    default_response_class=HTMLResponse,
+    dependencies=[Depends(authenticate)],
 )
-
-templates = Jinja2Templates(directory=base_path / 'templates')
 
 router.mount('/static', StaticFiles(
     directory=base_path / 'static'), name='static',
@@ -44,12 +46,6 @@ def index(request: Request):
     return templates.TemplateResponse('index.jinja', {
         'request': request,
     })
-
-
-@router.get('/error')
-def error(request: Request):
-    from fastapi.exceptions import HTTPException
-    raise HTTPException(400)
 
 
 @router.get('/calendar')
@@ -68,6 +64,11 @@ async def calendar(
 ):
     today = pydate.today()
 
+    try:
+        month_dates = current.month_dates()
+    except IllegalMonthError as e:
+        raise HTTPException(status.HTTP_400_BAD_REQUEST, e)
+
     reservations = dict(map(
         Reservation.as_pair, db.fetch().items),
     )
@@ -77,7 +78,7 @@ async def calendar(
         'today': today,
         'current': current,
         'day_name': day_name,
-        'calendar': Calendar(),
+        'month_dates': month_dates,
         'reservations': reservations,
     })
 

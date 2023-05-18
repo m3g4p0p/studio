@@ -6,4 +6,15 @@ micros:
     engine: python3.9
     primary: true
     run: uvicorn app.main:app
-    public: true
+    public_routes:
+      - /
+      - /calendar
+      - /calendar/*
+      - /reservation/*
+      - /static/*
+    presets:
+      env:
+        - name: BASIC_AUTH_USERNAME
+          description: Basic Auth Username
+        - name: BASIC_AUTH_PASSWORD
+          description: Basic Auth Password
