@@ -29,8 +29,8 @@ class Action(str, enum.Enum):
 
 
 router = APIRouter(
-    default_response_class=HTMLResponse,
     route_class=PatchedRoute,
+    default_response_class=HTMLResponse,
     dependencies=[Depends(authenticate)],
 )
 
