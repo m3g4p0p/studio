@@ -69,9 +69,17 @@ async def calendar(
     except IllegalMonthError as e:
         raise HTTPException(status.HTTP_400_BAD_REQUEST, e)
 
+    query = jsonable_encoder({
+        'date?gte': month_dates[0][0],
+        'date?lte': month_dates[-1][-1],
+    })
+
     reservations = dict(map(
-        Reservation.as_pair, db.fetch().items),
-    )
+        Reservation.as_pair,
+        db.fetch(query).items,
+    ))
+
+    print(reservations)
 
     return templates.TemplateResponse('calendar.jinja', {
         'request': request,

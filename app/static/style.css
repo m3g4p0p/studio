@@ -115,6 +115,11 @@ th {
   color: cyan;
 }
 
+.other.reserved,
+.other.reserved:visited {
+  color: darkcyan;
+}
+
 .reservation {
   margin-top: 1em;
   color: white;
