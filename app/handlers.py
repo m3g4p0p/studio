@@ -6,7 +6,7 @@ from fastapi import Request
 from fastapi.exception_handlers import http_exception_handler
 from starlette.exceptions import HTTPException
 
-from .routers.web import templates
+from .templating import templates
 
 
 def html_only(handler: t.Callable):
@@ -35,4 +35,4 @@ def handle_http_exception(request: Request, exc: HTTPException):
     return templates.TemplateResponse('error.jinja', {
         'request': request,
         'reason': exc.detail,
-    }, exc.status_code)
+    }, exc.status_code, exc.headers)
