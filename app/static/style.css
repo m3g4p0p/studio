@@ -13,6 +13,10 @@ body {
   font-family: 'X Typewriter', 'Courier New', Courier, monospace;
 }
 
+a {
+  display: block;
+}
+
 a,
 a:visited {
   color: fuchsia;
@@ -20,6 +24,7 @@ a:visited {
 
 a:active {
   color: purple;
+  transform: scale(1.1);
 }
 
 /* Form */
