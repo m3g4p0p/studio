@@ -160,6 +160,10 @@ th {
     width: 100%;
   }
 
+  td a:active {
+    transform: translateX(1em);
+  }
+
   td a::before {
     content: attr(data-day);
   }
