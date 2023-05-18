@@ -1,5 +1,5 @@
 import enum
-from calendar import Calendar
+from calendar import IllegalMonthError
 from calendar import day_name
 from datetime import date as pydate
 
@@ -7,7 +7,9 @@ from fastapi import APIRouter
 from fastapi import Depends
 from fastapi import Form
 from fastapi import Request
+from fastapi import status
 from fastapi.encoders import jsonable_encoder
+from fastapi.exceptions import HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
@@ -46,12 +48,6 @@ def index(request: Request):
     })
 
 
-@router.get('/error')
-def error(request: Request):
-    from fastapi.exceptions import HTTPException
-    raise HTTPException(400)
-
-
 @router.get('/calendar')
 async def calendar_today(request: Request):
     today = pydate.today()
@@ -68,6 +64,11 @@ async def calendar(
 ):
     today = pydate.today()
 
+    try:
+        month_dates = current.month_dates()
+    except IllegalMonthError as e:
+        raise HTTPException(status.HTTP_400_BAD_REQUEST, e)
+
     reservations = dict(map(
         Reservation.as_pair, db.fetch().items),
     )
@@ -77,7 +78,7 @@ async def calendar(
         'today': today,
         'current': current,
         'day_name': day_name,
-        'calendar': Calendar(),
+        'month_dates': month_dates,
         'reservations': reservations,
     })
 
