@@ -1,3 +1,4 @@
+import os
 import typing as t
 from calendar import Calendar
 from datetime import date as pydate
@@ -8,7 +9,8 @@ from pydantic import BaseModel
 from pydantic import validator
 
 deta = Deta()
-db = deta.Base('reservations')
+name = os.getenv('DETA_BASE_NAME', 'reservations')
+db = deta.Base(name)
 
 
 class Reservation(BaseModel):

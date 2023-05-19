@@ -33,6 +33,7 @@ a:active {
 
 /* Errors */
 
+.home,
 .error {
   text-align: center;
 }

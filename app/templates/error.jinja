@@ -3,13 +3,12 @@
 {% block body %}
   <h1>{{ reason|title }} 💀</h1>
 
-  {% for error in errors %}
+
+  {% for error in errors if error.loc %}
     <p class="error">
-      {% if error.loc %}
-        {{ error.loc[1]|title }} {{ error.msg }}
-      {% else %}
-        {{ error|capitalize }}
+      {{ error.loc[1]|title }} {{ error.msg }}
     </p>
-    {% endif %}
   {% endfor %}
+
+  <h3 class="home"><a href="{{ url_for('calendar_today') }}">Back home</a></h3>
 {% endblock body %}
