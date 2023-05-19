@@ -41,7 +41,7 @@
         {% for date in week %}
           <td>
             <a
-              href="{{ url_for('get_form', date=date) }}"
+              href="{{ url_for('reservation', date=date) }}"
               class="{{ classnames(
                 today=date == today,
                 other=date.month != current.month,

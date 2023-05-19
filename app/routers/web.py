@@ -91,7 +91,7 @@ async def calendar(
     })
 
 
-@router.get('/reservation/{date}')
+@router.get('/reservation/{date}', name='reservation')
 async def get_form(
     request: Request,
     reservation: Reservation = Depends(Reservation.get),
