@@ -139,6 +139,10 @@ th {
   display: inline-block;
 }
 
+.reservation .full {
+  display: none;
+}
+
 @media screen and (max-width: 768px) {
   body,
   table {
@@ -191,5 +195,13 @@ th {
 
   .reservation {
     max-width: 100%;
+  }
+
+  .reservation .short {
+    display: none;
+  }
+
+  .reservation .full {
+    display: inline;
   }
 }

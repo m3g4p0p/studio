@@ -53,7 +53,10 @@
               <div class="reservation">
                 <small>
                   {% if date in reservations %}
-                    {{ reservations[date].band|truncate(32) }}
+                    {% with band=reservations[date].band %}
+                      <span class="short">{{ band|truncate(32) }}</span>
+                      <span class="full">{{ band }}</span>
+                    {% endwith %}
                   {% else %}
                     &mdash;
                   {% endif %}
