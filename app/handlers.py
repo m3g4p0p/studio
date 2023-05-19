@@ -10,6 +10,7 @@ from fastapi.exception_handlers import request_validation_exception_handler
 from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException
 
+from .patches import PatchedRequest
 from .templating import templates
 
 
@@ -29,6 +30,10 @@ def html_only(handler: t.Callable):
     return update_wrapper(wrapper, handler)
 
 
+def patch(request: Request):
+    return PatchedRequest(request.scope, request.receive)
+
+
 def reason(code: int):
     return HTTPStatus(code).phrase
 
@@ -36,7 +41,7 @@ def reason(code: int):
 @html_only
 def handle_http_error(request: Request, exc: HTTPError):
     return templates.TemplateResponse('error.jinja', {
-        'request': request,
+        'request': patch(request),
         'reason': exc.reason,
     }, exc.code)
 
@@ -44,7 +49,7 @@ def handle_http_error(request: Request, exc: HTTPError):
 @html_only
 def handle_http_exception(request: Request, exc: HTTPException):
     return templates.TemplateResponse('error.jinja', {
-        'request': request,
+        'request': patch(request),
         'reason': reason(exc.status_code),
         'errors': [exc.detail],
     }, exc.status_code, exc.headers)
@@ -56,7 +61,7 @@ def handle_unprocessable_entity(
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
 
     return templates.TemplateResponse('error.jinja', {
-        'request': request,
+        'request': patch(request),
         'reason': reason(status_code),
         'errors': exc.errors(),
     }, status_code)

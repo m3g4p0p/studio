@@ -2,7 +2,6 @@ from typing import Any
 from typing import Callable
 from typing import Coroutine
 
-from fastapi import Request
 from fastapi.routing import APIRoute
 from starlette.datastructures import URL
 from starlette.requests import Request
