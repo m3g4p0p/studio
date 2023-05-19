@@ -51,7 +51,8 @@ input {
 
 input,
 button {
-  padding: 0.8em 1em;
+  height: 3em;
+  padding: 0 1em;
   font-family: 'Courier New', Courier, monospace;
 }
 
