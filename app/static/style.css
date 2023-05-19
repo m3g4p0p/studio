@@ -31,6 +31,12 @@ a:active {
   transform: scale(1.1);
 }
 
+/* Errors */
+
+.error {
+  text-align: center;
+}
+
 /* Form */
 
 label {

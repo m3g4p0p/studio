@@ -1,9 +1,15 @@
 {% extends "base.jinja" %}
 
 {% block body %}
-  <h1>{{ reason }} 💀</h1>
+  <h1>{{ reason|title }} 💀</h1>
 
   {% for error in errors %}
-    <p>{{ error.loc[1]|title }} {{ error.msg }}</p>
+    <p class="error">
+      {% if error.loc %}
+        {{ error.loc[1]|title }} {{ error.msg }}
+      {% else %}
+        {{ error|capitalize }}
+    </p>
+    {% endif %}
   {% endfor %}
 {% endblock body %}

@@ -41,7 +41,8 @@ def handle_http_error(request: Request, exc: HTTPError):
 def handle_http_exception(request: Request, exc: HTTPException):
     return templates.TemplateResponse('error.jinja', {
         'request': request,
-        'reason': exc.detail,
+        'reason': HTTPStatus(exc.status_code).phrase,
+        'errors': [exc.detail],
     }, exc.status_code, exc.headers)
 
 
