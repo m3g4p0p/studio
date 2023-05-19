@@ -19,9 +19,11 @@ Todo:
     ☐ Month picker
     ✔ Path error handling @done(23-05-19 01:52)
     ☐ Reservations / band
+    ☐ Reservation as dependency
+    ☐ Calendar month as path param
   ✔ Exceptions @done(23-05-18 13:36)
     ✔ Check accept header @done(23-05-18 13:36)
-    ✔ Template for starlette HTTP exceptiona @done(23-05-18 13:36)
+    ✔ Template for starlette HTTP exceptions @done(23-05-18 13:36)
 
 
 

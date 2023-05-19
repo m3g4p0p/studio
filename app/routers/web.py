@@ -79,8 +79,6 @@ async def calendar(
         db.fetch(query).items,
     ))
 
-    print(reservations)
-
     return templates.TemplateResponse('calendar.jinja', {
         'request': request,
         'today': today,
