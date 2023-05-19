@@ -4,9 +4,13 @@
   <h1>{{ reason|title }} 💀</h1>
 
 
-  {% for error in errors if error.loc %}
+  {% for error in errors %}
     <p class="error">
-      {{ error.loc[1]|title }} {{ error.msg }}
+      {% if error.loc %}
+        {{ error.loc[1]|title }} {{ error.msg }}
+      {% else %}
+        {{ error|capitalize }}
+      {% endif %}
     </p>
   {% endfor %}
 

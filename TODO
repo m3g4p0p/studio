@@ -13,6 +13,7 @@ Todo:
     ✘ Band datalist @cancelled(23-05-19 16:06)
     ✔ Stacked view @done(23-05-14 13:04)
     ☐ Multiple reservations / date
+    ☐ Reservation time
     ☐ URL date format
     ☐ Comments
     ✔ Sticky nav @done(23-05-19 00:51)
@@ -21,7 +22,7 @@ Todo:
     ☐ Reservations / band
     ☐ Reservation as dependency
     ☐ Calendar month as path param
-    ☐ Reservation time
+    ☐ Scroll snap
   ✔ Exceptions @done(23-05-18 13:36)
     ✔ Check accept header @done(23-05-18 13:36)
     ✔ Template for starlette HTTP exceptions @done(23-05-18 13:36)
