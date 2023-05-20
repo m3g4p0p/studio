@@ -139,7 +139,7 @@ th {
   display: inline-block;
 }
 
-.reservation .full {
+.reservation ul {
   display: none;
 }
 
@@ -193,15 +193,18 @@ th {
     content: attr(data-day);
   }
 
+  .truncated {
+    display: none;
+  }
+
   .reservation {
     max-width: 100%;
   }
 
-  .reservation .short {
-    display: none;
-  }
-
-  .reservation .full {
-    display: inline;
+  .reservation ul {
+    display: block;
+    list-style: none;
+    margin: 0;
+    padding: 0;
   }
 }

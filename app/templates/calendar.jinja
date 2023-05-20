@@ -54,8 +54,13 @@
                 <small>
                   {% if date in reservations %}
                     {% with band=reservations[date].band %}
-                      <span class="short">{{ band|truncate(32) }}</span>
-                      <span class="full">{{ band }}</span>
+                      <span class="truncated">{{ band|truncate(32) }}</span>
+
+                      <ul>
+                        {% for line in band.splitlines() if line.strip() %}
+                          <li>{{ line }}</li>
+                        {% endfor %}
+                      </ul>
                     {% endwith %}
                   {% else %}
                     &mdash;
