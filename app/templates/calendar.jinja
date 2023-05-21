@@ -74,4 +74,13 @@
     {% endfor %}
   </tbody>
 </table>
+
+{% if current != (today.year, today.month)  %}
+  <footer>
+    <p>
+      Back to
+      <a href="{{ url_for('calendar_today') }}">{{ today|strftime('%B %Y') }}</a>
+    </p>
+  </footer>
+{% endif %}
 {% endblock body %}

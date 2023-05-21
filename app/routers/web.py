@@ -62,8 +62,6 @@ async def calendar(
     request: Request,
     current: CalendarMonth = Depends(),
 ):
-    today = pydate.today()
-
     try:
         month_dates = current.month_dates()
     except IllegalMonthError as e:
@@ -81,7 +79,6 @@ async def calendar(
 
     return templates.TemplateResponse('calendar.jinja', {
         'request': request,
-        'today': today,
         'current': current,
         'day_name': day_name,
         'month_dates': month_dates,

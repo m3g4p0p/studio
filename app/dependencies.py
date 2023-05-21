@@ -51,7 +51,6 @@ class CalendarMonth(t.NamedTuple):
 
     year: int
     month: int
-    _calendar = Calendar()
 
     def __add__(self, value: int):
         month = self.month + value
@@ -68,6 +67,6 @@ class CalendarMonth(t.NamedTuple):
         return f'{self.year}-{self.month:02}'
 
     def month_dates(self):
-        return self._calendar.monthdatescalendar(
+        return Calendar().monthdatescalendar(
             self.year, self.month,
         )
