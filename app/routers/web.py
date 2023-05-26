@@ -42,8 +42,18 @@ router.mount('/static', StaticFiles(
 
 @router.get('/')
 def index(request: Request):
+    query = jsonable_encoder({
+        'date?gte': pydate.today()
+    })
+
+    reservations = map(
+        Reservation.from_dict,
+        db.fetch(query, limit=5).items,
+    )
+
     return templates.TemplateResponse('index.jinja', {
         'request': request,
+        'reservations': reservations,
     })
 
 

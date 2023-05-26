@@ -41,6 +41,25 @@ footer a {
   display: inline;
 }
 
+/* Index */
+
+dl {
+  text-align: center;
+  padding: 1em;
+}
+
+dt {
+  font-weight: bold;
+}
+
+dd {
+  margin: 1em;
+}
+
+dd + dt {
+  margin-top: 2em;
+}
+
 /* Errors */
 
 .home,
