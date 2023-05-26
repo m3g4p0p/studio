@@ -1,4 +1,5 @@
 import os
+from calendar import day_name
 from datetime import date
 
 from fastapi import Request
@@ -18,8 +19,8 @@ def route_context(request: Request):
     return {'route': request.scope['route'].name}
 
 
-def today_context(request: Request):
-    return {'today': date.today()}
+def date_context(request: Request):
+    return {'today': date.today(), 'day_name': day_name}
 
 
 templates = Jinja2Templates(
@@ -27,7 +28,7 @@ templates = Jinja2Templates(
     context_processors=[
         env_context,
         route_context,
-        today_context,
+        date_context,
     ],
 )
 

@@ -1,6 +1,5 @@
 import enum
 from calendar import IllegalMonthError
-from calendar import day_name
 from datetime import date as pydate
 
 from fastapi import APIRouter
@@ -80,7 +79,6 @@ async def calendar(
     return templates.TemplateResponse('calendar.jinja', {
         'request': request,
         'current': current,
-        'day_name': day_name,
         'month_dates': month_dates,
         'reservations': reservations,
     })
