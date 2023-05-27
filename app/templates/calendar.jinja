@@ -8,76 +8,79 @@
   {{ super() }} | {{ current }}
 {% endblock title %}
 
-{% block body %}
-<nav>
-  <h1>
-    <a
-      href="{{ url_for('calendar', **(current - 1)._asdict()) }}"
-      title="Previous"
-      class="prev"
-    >&lt;&lt;</a>
+{% block header %}
+  <nav>
+    <h1>
+      <a
+        href="{{ url_for('calendar', **(current - 1)._asdict()) }}"
+        title="Previous"
+        class="prev"
+      >&lt;&lt;</a>
 
-    <span>{{ current }}</span>
+      <span>{{ current }}</span>
 
-    <a
-      href="{{ url_for('calendar', **(current + 1)._asdict()) }}"
-      title="Next"
-      class="next"
-    >&gt;&gt;</a>
-  </h1>
-</nav>
+      <a
+        href="{{ url_for('calendar', **(current + 1)._asdict()) }}"
+        title="Next"
+        class="next"
+      >&gt;&gt;</a>
+    </h1>
+  </nav>
+{% endblock header %}
 
-<table>
-  <thead>
-    <tr>
-      {% for name in day_name %}
-        <th>{{ name }}</th>
-      {% endfor %}
-    </tr>
-  </thead>
-  <tbody>
-    {% for week in month_dates %}
+{% block main %}
+  <table>
+    <thead>
       <tr>
-        {% for date in week %}
-          <td>
-            <a
-              href="{{ url_for('reservation', date=date) }}"
-              class="{{ classnames(
-                today=date == today,
-                other=date.month != current.month,
-                reserved=date in reservations,
-              ) }}"
-              data-day="{{ day_name[loop.index0] }}">
-              {{ date.day }}
-
-              <div class="reservation">
-                <small>
-                  {% if date in reservations %}
-                    {% with bands=reservations[date].split_bands() %}
-                      <span class="truncated">
-                        {{ bands|map('truncate', 24)|join('<br>')|safe }}
-                      </span>
-
-                      <ul>
-                        {% for band in bands %}
-                          <li>{{ band }}</li>
-                        {% endfor %}
-                      </ul>
-                    {% endwith %}
-                  {% else %}
-                    &mdash;
-                  {% endif %}
-                </small>
-              </div>
-            </a>
-          </td>
+        {% for name in day_name %}
+          <th>{{ name }}</th>
         {% endfor %}
       </tr>
-    {% endfor %}
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      {% for week in month_dates %}
+        <tr>
+          {% for date in week %}
+            <td>
+              <a
+                href="{{ url_for('reservation', date=date) }}"
+                class="{{ classnames(
+                  today=date == today,
+                  other=date.month != current.month,
+                  reserved=date in reservations,
+                ) }}"
+                data-day="{{ day_name[loop.index0] }}">
+                {{ date.day }}
 
-<footer>
+                <div class="reservation">
+                  <small>
+                    {% if date in reservations %}
+                      {% with bands=reservations[date].split_bands() %}
+                        <span class="truncated">
+                          {{ bands|map('truncate', 24)|join('<br>')|safe }}
+                        </span>
+
+                        <ul>
+                          {% for band in bands %}
+                            <li>{{ band }}</li>
+                          {% endfor %}
+                        </ul>
+                      {% endwith %}
+                    {% else %}
+                      &mdash;
+                    {% endif %}
+                  </small>
+                </div>
+              </a>
+            </td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock main %}
+
+{% block footer %}
   {% if current != (today.year, today.month)  %}
     <p>
       Back to <a href="{{ url_for('calendar_today') }}">{{ today|strftime('%B %Y') }}</a>
@@ -87,5 +90,4 @@
       <a href="{{ url_for('index') }}">Go home</a>
     </p>
   {% endif %}
-</footer>
-{% endblock body %}
+{% endblock footer %}

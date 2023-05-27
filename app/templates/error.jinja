@@ -4,7 +4,7 @@
   {{ super() }} | 💀
 {% endblock title %}
 
-{% block body %}
+{% block main %}
   <h1>{{ reason|title }} 💀</h1>
 
 
@@ -19,4 +19,4 @@
   {% endfor %}
 
   <h3 class="home"><a href="{{ url_for('index') }}">Back home</a></h3>
-{% endblock body %}
+{% endblock main %}

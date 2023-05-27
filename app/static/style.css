@@ -183,10 +183,13 @@ th {
     width: 100%;
   }
 
-  nav {
+  header {
     position: sticky;
-    padding: 1em 0;
     top: 0;
+  }
+
+  nav {
+    padding: 1em 0;
     background: linear-gradient(to bottom, black 90%, transparent);
   }
 
