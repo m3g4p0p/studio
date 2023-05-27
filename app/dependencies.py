@@ -17,7 +17,11 @@ class Reservation(BaseModel):
 
     date: pydate
     band: str = ''
-    key: t.Optional[str] = None
+    key: str = ''
+
+    @validator('key', always=True)
+    def key_from_date(cls, value, values):
+        return value or values['date']
 
     @validator('band', always=True)
     def strip_band(cls, value: str):
@@ -28,7 +32,7 @@ class Reservation(BaseModel):
         return cls(**data)
 
     @classmethod
-    def as_pair(cls, data):
+    def by_date(cls, data):
         instance = cls.from_dict(data)
         return instance.date, instance
 
@@ -42,16 +46,18 @@ class Reservation(BaseModel):
         return cls.from_dict(item)
 
     @classmethod
-    async def form(cls, request: Request):
+    async def from_form(cls, request: Request):
         data = dict(await request.form())
         return cls.from_dict(data)
+
+    def split_bands(self):
+        return self.band.splitlines()
 
 
 class CalendarMonth(t.NamedTuple):
 
     year: int
     month: int
-    _calendar = Calendar()
 
     def __add__(self, value: int):
         month = self.month + value
@@ -68,6 +74,6 @@ class CalendarMonth(t.NamedTuple):
         return f'{self.year}-{self.month:02}'
 
     def month_dates(self):
-        return self._calendar.monthdatescalendar(
+        return Calendar().monthdatescalendar(
             self.year, self.month,
         )

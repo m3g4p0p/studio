@@ -38,3 +38,5 @@ templates = Jinja2Templates(
         version_context,
     ],
 )
+
+templates.env.filters['strftime'] = date.strftime

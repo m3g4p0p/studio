@@ -3,6 +3,7 @@ Todo:
   ☐ Auth
     ☐ Feature switch / optional dependency
   ☐ DB Dependency
+  ☐ Cache busting
   ☐ Calendar
     ✔ Switch month @done(23-05-14 19:12)
     ✔ Path params @done(23-05-14 12:09)
@@ -20,7 +21,7 @@ Todo:
     ☐ Month picker
     ✔ Path error handling @done(23-05-19 01:52)
     ☐ Reservations / band
-    ☐ Reservation as dependency
+    ☐ Reservations as dependency
     ☐ Calendar month as path param
     ✘ Scroll snap @cancelled(23-05-20 00:51)
   ✔ Exceptions @done(23-05-18 13:36)

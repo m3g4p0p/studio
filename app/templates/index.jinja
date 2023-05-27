@@ -2,4 +2,14 @@
 
 {% block body %}
   <h1><a href="{{ url_for('calendar_today') }}">Space 🚀 Fuck</a></h1>
+
+  <dl>
+    {% for reservation in reservations %}
+      <dt>{{ reservation.date }}</dt>
+
+      {% for band in reservation.split_bands() %}
+        <dd>{{ band }}</dd>
+      {% endfor %}
+    {% endfor %}
+  </dl>
 {% endblock body %}

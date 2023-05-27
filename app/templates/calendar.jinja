@@ -53,12 +53,14 @@
               <div class="reservation">
                 <small>
                   {% if date in reservations %}
-                    {% with band=reservations[date].band %}
-                      <span class="truncated">{{ band|truncate(32) }}</span>
+                    {% with bands=reservations[date].split_bands() %}
+                      <span class="truncated">
+                        {{ bands|map('truncate', 16)|join('<br>')|safe }}
+                      </span>
 
                       <ul>
-                        {% for line in band.splitlines() if line.strip() %}
-                          <li>{{ line }}</li>
+                        {% for band in bands %}
+                          <li>{{ band }}</li>
                         {% endfor %}
                       </ul>
                     {% endwith %}
@@ -74,4 +76,13 @@
     {% endfor %}
   </tbody>
 </table>
+
+{% if current != (today.year, today.month)  %}
+  <footer>
+    <p>
+      Back to
+      <a href="{{ url_for('calendar_today') }}">{{ today|strftime('%B %Y') }}</a>
+    </p>
+  </footer>
+{% endif %}
 {% endblock body %}

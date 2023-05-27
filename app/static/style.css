@@ -1,5 +1,7 @@
 @import url("fonts.css");
 
+/* Global */
+
 :root {
   --background-transparent: rgba(255, 255, 255, .1);
 }
@@ -29,6 +31,33 @@ a:visited {
 a:active {
   color: purple;
   transform: scale(1.1);
+}
+
+footer p {
+  text-align: center;
+}
+
+footer a {
+  display: inline;
+}
+
+/* Index */
+
+dl {
+  text-align: center;
+  padding: 1em;
+}
+
+dt {
+  font-weight: bold;
+}
+
+dd {
+  margin: 1em;
+}
+
+dd + dt {
+  margin-top: 2em;
 }
 
 /* Errors */
