@@ -7,7 +7,7 @@
     {% for reservation in reservations %}
       <dt>{{ reservation.date }}</dt>
 
-      {% for band in reservation.bands %}
+      {% for band in reservation.split_bands() %}
         <dd>{{ band }}</dd>
       {% endfor %}
     {% endfor %}

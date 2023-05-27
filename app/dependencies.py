@@ -50,8 +50,7 @@ class Reservation(BaseModel):
         data = dict(await request.form())
         return cls.from_dict(data)
 
-    @property
-    def bands(self):
+    def split_bands(self):
         return self.band.splitlines()
 
 
