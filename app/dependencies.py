@@ -32,6 +32,11 @@ class Reservation(BaseModel):
         return cls(**data)
 
     @classmethod
+    async def from_form(cls, request: Request):
+        data = dict(await request.form())
+        return cls.from_dict(data)
+
+    @classmethod
     def by_date(cls, data):
         instance = cls.from_dict(data)
         return instance.date, instance
@@ -45,13 +50,10 @@ class Reservation(BaseModel):
 
         return cls.from_dict(item)
 
-    @classmethod
-    async def from_form(cls, request: Request):
-        data = dict(await request.form())
-        return cls.from_dict(data)
-
     def split_bands(self):
-        return self.band.splitlines()
+        return self.band.encode().decode(
+            'unicode_escape',
+        ).splitlines()
 
 
 class CalendarMonth(t.NamedTuple):
