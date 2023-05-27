@@ -82,7 +82,7 @@ async def calendar(
     })
 
     reservations = dict(map(
-        Reservation.as_pair,
+        Reservation.by_date,
         db.fetch(query).items,
     ))
 
@@ -110,7 +110,7 @@ async def post_form(
     request: Request,
     date: pydate,
     action: Action = Form(),
-    reservation: Reservation = Depends(Reservation.form),
+    reservation: Reservation = Depends(Reservation.from_form),
 ):
     redirect_date = date
 
@@ -127,7 +127,7 @@ async def post_form(
     if action is Action.DELETE or \
             not reservation.band or \
             date != reservation.date:
-        db.delete(key=str(date))
+        db.delete(key=reservation.key)
 
     return RedirectResponse(request.url_for(
         'calendar',
