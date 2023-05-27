@@ -1,0 +1,14 @@
+{% extends "base.jinja" %}
+
+{% block body %}
+  <table>
+    <caption><h1>Environment</h1></caption>
+
+    {% for key, value in env|dictsort %}
+      <tr>
+        <td>{{ key }}</td>
+        <td>{{ value }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endblock body %}

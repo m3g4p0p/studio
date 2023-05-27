@@ -134,3 +134,10 @@ async def post_form(
         year=redirect_date.year,
         month=redirect_date.month,
     ), status_code=302)
+
+
+@router.get('/inspect')
+async def inspect(request: Request):
+    return templates.TemplateResponse('inspect.jinja', {
+        'request': request,
+    })
