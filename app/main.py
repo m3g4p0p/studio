@@ -13,8 +13,8 @@ from .routers import web
 
 app = FastAPI()
 
-app.mount('/', web.router)
 app.mount('/api', api.router)
+app.mount('/', web.router)
 
 app.add_exception_handler(HTTPError, handle_http_error)
 app.add_exception_handler(HTTPException, handle_http_exception)

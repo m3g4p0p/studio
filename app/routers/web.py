@@ -44,7 +44,7 @@ router.mount('/static', StaticFiles(
 @router.get('/')
 def index(
     request: Request,
-    limit: int = Query(default=5, ge=0, le=20),
+    limit: int = Query(default=10, ge=0, le=20),
 ):
     query = jsonable_encoder({
         'date?gte': pydate.today()
