@@ -63,7 +63,6 @@ dd + dt {
 dt a,
 dt a:visited {
   color: white;
-  text-decoration: none;
 }
 
 /* Errors */

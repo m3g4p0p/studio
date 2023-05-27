@@ -77,12 +77,15 @@
   </tbody>
 </table>
 
-{% if current != (today.year, today.month)  %}
-  <footer>
+<footer>
+  {% if current != (today.year, today.month)  %}
     <p>
-      Back to
-      <a href="{{ url_for('calendar_today') }}">{{ today|strftime('%B %Y') }}</a>
+      Back to <a href="{{ url_for('calendar_today') }}">{{ today|strftime('%B %Y') }}</a>
     </p>
-  </footer>
-{% endif %}
+  {% else %}
+    <p>
+      <a href="{{ url_for('index') }}">Go home</a>
+    </p>
+  {% endif %}
+</footer>
 {% endblock body %}

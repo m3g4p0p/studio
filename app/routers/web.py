@@ -47,7 +47,7 @@ def index(
     limit: int = Query(default=10, ge=0, le=20),
 ):
     query = jsonable_encoder({
-        'date?gte': pydate.today()
+        'date?gte': pydate.today(),
     })
 
     reservations = map(
