@@ -60,6 +60,12 @@ dd + dt {
   margin-top: 3em;
 }
 
+dt a,
+dt a:visited {
+  color: white;
+  text-decoration: none;
+}
+
 /* Errors */
 
 .home,

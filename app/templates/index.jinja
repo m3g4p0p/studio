@@ -5,7 +5,9 @@
 
   <dl>
     {% for reservation in reservations %}
-      <dt>{{ reservation.date }}</dt>
+      <dt>
+        <a href="{{ url_for('reservation', date=reservation.date) }}">{{ reservation.date }}</a>
+      </dt>
 
       {% for band in reservation.split_bands() %}
         <dd>{{ band }}</dd>
