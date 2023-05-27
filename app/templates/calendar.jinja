@@ -55,7 +55,7 @@
                   {% if date in reservations %}
                     {% with bands=reservations[date].split_bands() %}
                       <span class="truncated">
-                        {{ bands|map('truncate', 16)|join('<br>')|safe }}
+                        {{ bands|map('truncate', 24)|join('<br>')|safe }}
                       </span>
 
                       <ul>
