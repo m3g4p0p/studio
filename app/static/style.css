@@ -35,6 +35,8 @@ a:active {
 
 footer p {
   text-align: center;
+  font-size: 1.1em;
+  font-weight: bold;
 }
 
 footer a {
@@ -67,7 +69,6 @@ dt a:visited {
 
 /* Errors */
 
-.home,
 .error {
   text-align: center;
 }

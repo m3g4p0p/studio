@@ -18,5 +18,8 @@
     </p>
   {% endfor %}
 
-  <h3 class="home"><a href="{{ url_for('index') }}">Back home</a></h3>
 {% endblock main %}
+
+{% block footer %}
+  <p><a href="{{ url_for('index') }}">Back home</a></p>
+{% endblock footer %}
