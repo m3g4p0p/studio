@@ -10,6 +10,8 @@
   <title>{% block title %}studio{% endblock title %}</title>
 </head>
 <body class="{{ route|replace('_', '-') }}">
-  {% block body %}{% endblock body %}
+  <header>{% block header %}{% endblock header %}</header>
+  <main>{% block main %}{% endblock main %}</main>
+  <footer>{% block footer %}{% endblock footer %}</footer>
 </body>
 </html>

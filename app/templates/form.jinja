@@ -4,7 +4,7 @@
   {{ super() }} | {{ reservation.date }}
 {% endblock title %}
 
-{% block body %}
+{% block main %}
   <h1>
     Reservation
     {% if reservation.band %}
@@ -32,4 +32,4 @@
       <button value="cancel" name="action">Cancel</button>
     </div>
 </form>
-{% endblock body %}
+{% endblock main %}

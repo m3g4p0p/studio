@@ -5,6 +5,7 @@ from datetime import date as pydate
 from fastapi import APIRouter
 from fastapi import Depends
 from fastapi import Form
+from fastapi import Query
 from fastapi import Request
 from fastapi import status
 from fastapi.encoders import jsonable_encoder
@@ -41,14 +42,17 @@ router.mount('/static', StaticFiles(
 
 
 @router.get('/')
-def index(request: Request):
+def index(
+    request: Request,
+    limit: int = Query(default=10, ge=0, le=20),
+):
     query = jsonable_encoder({
-        'date?gte': pydate.today()
+        'date?gte': pydate.today(),
     })
 
     reservations = map(
         Reservation.from_dict,
-        db.fetch(query, limit=5).items,
+        db.fetch(query, limit=limit).items,
     )
 
     return templates.TemplateResponse('index.jinja', {
@@ -134,3 +138,10 @@ async def post_form(
         year=redirect_date.year,
         month=redirect_date.month,
     ), status_code=302)
+
+
+@router.get('/inspect')
+async def inspect(request: Request):
+    return templates.TemplateResponse('inspect.jinja', {
+        'request': request,
+    })

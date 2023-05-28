@@ -35,6 +35,8 @@ a:active {
 
 footer p {
   text-align: center;
+  font-size: 1.1em;
+  font-weight: bold;
 }
 
 footer a {
@@ -57,12 +59,16 @@ dd {
 }
 
 dd + dt {
-  margin-top: 2em;
+  margin-top: 3em;
+}
+
+dt a,
+dt a:visited {
+  color: white;
 }
 
 /* Errors */
 
-.home,
 .error {
   text-align: center;
 }
@@ -178,10 +184,13 @@ th {
     width: 100%;
   }
 
-  nav {
+  header {
     position: sticky;
-    padding: 1em 0;
     top: 0;
+  }
+
+  nav {
+    padding: 1em 0;
     background: linear-gradient(to bottom, black 90%, transparent);
   }
 
