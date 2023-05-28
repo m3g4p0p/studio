@@ -1,4 +1,5 @@
 import enum
+import typing as t
 from calendar import IllegalMonthError
 from datetime import date as pydate
 
@@ -70,10 +71,18 @@ async def calendar_today(request: Request):
     ))
 
 
+@router.get('/calendar/{date}')
+async def calendar_date(request: Request, date: pydate):
+    return RedirectResponse(request.url_for(
+        'calendar', year=date.year, month=date.month,
+    ).include_query_params(highlight=date.day))
+
+
 @router.get('/calendar/{year}/{month}')
 async def calendar(
     request: Request,
     current: CalendarMonth = Depends(),
+    highlight: t.Optional[int] = None,
 ):
     try:
         month_dates = current.month_dates()
@@ -93,6 +102,7 @@ async def calendar(
     return templates.TemplateResponse('calendar.jinja', {
         'request': request,
         'current': current,
+        'highlight': highlight,
         'month_dates': month_dates,
         'reservations': reservations,
     })
