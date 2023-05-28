@@ -42,12 +42,12 @@
         <tr>
           {% for date in week %}
             <td class="{{ classnames(
-              highlight=highlight == date.day
+              highlight=highlight == date.day,
+              today=date == today,
             ) }}">
               <a
                 href="{{ url_for('reservation', date=date) }}"
                 class="{{ classnames(
-                  today=date == today,
                   other=date.month != current.month,
                   reserved=date in reservations,
                 ) }}"
@@ -93,3 +93,7 @@
     </p>
   {% endif %}
 {% endblock footer %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', path='/calendar.js') }}"></script>
+{% endblock scripts %}
