@@ -141,6 +141,10 @@ th {
   float: right;
 }
 
+.highlight {
+  box-shadow: 0 0 5px cyan;
+}
+
 .today {
   font-weight: bold;
 }

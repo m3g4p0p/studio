@@ -41,7 +41,9 @@
       {% for week in month_dates %}
         <tr>
           {% for date in week %}
-            <td>
+            <td class="{{ classnames(
+              highlight=highlight == date.day
+            ) }}">
               <a
                 href="{{ url_for('reservation', date=date) }}"
                 class="{{ classnames(
