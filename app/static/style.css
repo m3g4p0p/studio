@@ -91,6 +91,12 @@ button {
   font-family: 'Courier New', Courier, monospace;
 }
 
+fieldset {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
 .datetime {
   display: flex;
   flex-wrap: wrap;
