@@ -1,5 +1,7 @@
 import datetime
+import typing as t
 import urllib.parse
+from functools import reduce
 
 
 def with_query(url: str, **query_params):
@@ -19,3 +21,21 @@ def update_month(date: datetime.date, delta: int):
         year=date.year + new_month // 12,
         month=new_month % 12,
     )
+
+
+def init_dict(data: dict, key: str):
+    return data.setdefault(key, {})
+
+
+def set_item(data: dict, item: tuple[str, str]):
+    key, value = item
+    path = key.split('.')
+    target_key = path.pop()
+    target = reduce(init_dict, path, data)
+    target[target_key] = value
+
+    return data
+
+
+def parse_mapping(mapping: t.Mapping):
+    return reduce(set_item, mapping.items(), {})

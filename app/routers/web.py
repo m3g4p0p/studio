@@ -52,7 +52,7 @@ def index(
     })
 
     reservations = map(
-        Reservation.from_dict,
+        Reservation.parse_obj,
         db.fetch(query, limit=limit).items,
     )
 

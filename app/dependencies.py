@@ -2,20 +2,35 @@ import os
 import typing as t
 from calendar import Calendar
 from datetime import date as pydate
+from datetime import time
 
 from deta import Deta
 from fastapi import Request
 from pydantic import BaseModel
 from pydantic import validator
 
+from .util import parse_mapping
+
 deta = Deta()
 name = os.getenv('DETA_BASE_NAME', 'reservations')
 db = deta.Base(name)
 
 
+class TimeFrame(BaseModel):
+
+    start: t.Optional[time] = None
+    end: t.Optional[time] = None
+
+    @validator('start', 'end', pre=True)
+    def to_none(cls, value):
+        return value or None
+
+
 class Reservation(BaseModel):
 
     date: pydate
+    time: TimeFrame = TimeFrame()
+
     band: str = ''
     key: str = ''
 
@@ -28,17 +43,15 @@ class Reservation(BaseModel):
         return value.strip()
 
     @classmethod
-    def from_dict(cls, data):
-        return cls(**data)
-
-    @classmethod
     async def from_form(cls, request: Request):
-        data = dict(await request.form())
-        return cls.from_dict(data)
+        form = await request.form()
+        data = parse_mapping(form)
+
+        return cls.parse_obj(data)
 
     @classmethod
     def by_date(cls, data):
-        instance = cls.from_dict(data)
+        instance = cls.parse_obj(data)
         return instance.date, instance
 
     @classmethod
@@ -48,7 +61,7 @@ class Reservation(BaseModel):
         if not item:
             return cls(date=date)
 
-        return cls.from_dict(item)
+        return cls.parse_obj(item)
 
     def split_bands(self):
         return self.band.encode().decode(
