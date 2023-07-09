@@ -91,6 +91,23 @@ button {
   font-family: 'Courier New', Courier, monospace;
 }
 
+.datetime {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.datetime > label {
+  flex-grow: 1;
+}
+
+.datetime > label:first-child {
+  flex-basis: 100%;
+}
+
+.datetime > label:last-child {
+  margin-left: 1em;
+}
+
 .actions {
   display: flex;
   flex-direction: row-reverse;

@@ -14,19 +14,22 @@
   </h1>
 
   <form method="post">
-    <label>
-      <p>Date</p>
-      <input type="date" name="date" value="{{ reservation.date }}">
-    </label>
+    <fieldset class="datetime">
+      <label>
+        <p>Date</p>
+        <input type="date" name="date" value="{{ reservation.date }}">
+      </label>
 
-    <p>
-      Time from
-      <label for="time-start">start</label>
-      to
-      <label for="time-end">end</label>
-      <input type="time" name="time_start" id="time-start">
-      <input type="time" name="time_end" id="time-end">
-    </p>
+      <label>
+        <p>From</p>
+        <input type="time" name="time_start" value="{{ reservation.time_start }}">
+      </label>
+
+      <label>
+        <p>Until</p>
+        <input type="time" name="time_end" value="{{ reservation.time_end }}">
+      </label>
+    </fieldset>
 
     <label>
       <p>Band</p>
