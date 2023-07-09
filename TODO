@@ -29,6 +29,9 @@ Todo:
   ✔ Exceptions @done(23-05-18 13:36)
     ✔ Check accept header @done(23-05-18 13:36)
     ✔ Template for starlette HTTP exceptions @done(23-05-18 13:36)
+  ☐ Band index
+  ☐ Fetch in background / async rendering
+  ☐ Expiry
 
 
 

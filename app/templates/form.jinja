@@ -19,6 +19,15 @@
       <input type="date" name="date" value="{{ reservation.date }}">
     </label>
 
+    <p>
+      Time from
+      <label for="time-start">start</label>
+      to
+      <label for="time-end">end</label>
+      <input type="time" name="time_start" id="time-start">
+      <input type="time" name="time_end" id="time-end">
+    </p>
+
     <label>
       <p>Band</p>
       <input type="text" name="band" value="{{ reservation.band }}">
