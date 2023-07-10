@@ -32,7 +32,7 @@ class TimeFrame(BaseModel):
         start = values['start']
 
         if end and start and start > end:
-            raise ValueError(f'{start} > {end}')
+            raise ValueError(f'must be later than {start}')
 
         return end
 

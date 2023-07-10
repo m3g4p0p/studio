@@ -39,43 +39,32 @@ def reason(code: int):
     return HTTPStatus(code).phrase
 
 
-@html_only
-def handle_http_error(request: Request, exc: HTTPError):
+def render_error(request, status_code, headers=None, **context):
     return templates.TemplateResponse('error.jinja', {
         'request': patch(request),
-        'reason': exc.reason,
-    }, exc.code)
+        'reason': reason(status_code),
+        **context,
+    }, status_code, headers)
+
+
+@html_only
+def handle_http_error(request: Request, exc: HTTPError):
+    return render_error(request, exc.code, reason=exc.reason)
 
 
 @html_only
 def handle_http_exception(request: Request, exc: HTTPException):
-    return templates.TemplateResponse('error.jinja', {
-        'request': patch(request),
-        'reason': reason(exc.status_code),
-        'detail': exc.detail,
-    }, exc.status_code, exc.headers)
+    return render_error(
+        request, exc.status_code, exc.headers, detail=exc.detail,
+    )
 
 
 @html_only
-def handle_unprocessable_entity(
-    request: Request, exc: RequestValidationError,
-):
+def handle_unprocessable_entity(request: Request, exc: RequestValidationError):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
-
-    return templates.TemplateResponse('error.jinja', {
-        'request': patch(request),
-        'reason': reason(status_code),
-        'errors': exc.errors(),
-    }, status_code)
+    return render_error(request, status_code, errors=exc.errors())
 
 
-def handle_validation_error(
-    request: Request, exc: ValidationError
-):
+def handle_validation_error(request: Request, exc: ValidationError):
     status_code = status.HTTP_400_BAD_REQUEST
-
-    return templates.TemplateResponse('error.jinja', {
-        'request': patch(request),
-        'reason': reason(status_code),
-        'detail': exc,
-    }, status_code)
+    return render_error(request, status_code, errors=exc.errors())
