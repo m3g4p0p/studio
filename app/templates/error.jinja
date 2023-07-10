@@ -7,6 +7,9 @@
 {% block main %}
   <h1>{{ reason|title }} 💀</h1>
 
+  {% if detail %}
+    <p class="error">{{ detail }}</p>
+  {% endif %}
 
   {% for error in errors %}
     <p class="error">

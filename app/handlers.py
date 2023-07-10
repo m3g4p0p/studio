@@ -8,6 +8,7 @@ from fastapi import status
 from fastapi.exception_handlers import http_exception_handler
 from fastapi.exception_handlers import request_validation_exception_handler
 from fastapi.exceptions import RequestValidationError
+from pydantic import ValidationError
 from starlette.exceptions import HTTPException
 
 from .patches import PatchedRequest
@@ -51,17 +52,30 @@ def handle_http_exception(request: Request, exc: HTTPException):
     return templates.TemplateResponse('error.jinja', {
         'request': patch(request),
         'reason': reason(exc.status_code),
-        'errors': [exc.detail],
+        'detail': exc.detail,
     }, exc.status_code, exc.headers)
 
 
 @html_only
 def handle_unprocessable_entity(
-        request: Request, exc: RequestValidationError):
+    request: Request, exc: RequestValidationError,
+):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
 
     return templates.TemplateResponse('error.jinja', {
         'request': patch(request),
         'reason': reason(status_code),
         'errors': exc.errors(),
+    }, status_code)
+
+
+def handle_validation_error(
+    request: Request, exc: ValidationError
+):
+    status_code = status.HTTP_400_BAD_REQUEST
+
+    return templates.TemplateResponse('error.jinja', {
+        'request': patch(request),
+        'reason': reason(status_code),
+        'detail': exc,
     }, status_code)

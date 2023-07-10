@@ -3,11 +3,13 @@ from urllib.error import HTTPError
 
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
+from pydantic import ValidationError
 from starlette.exceptions import HTTPException
 
 from .handlers import handle_http_error
 from .handlers import handle_http_exception
 from .handlers import handle_unprocessable_entity
+from .handlers import handle_validation_error
 from .routers import api
 from .routers import web
 
@@ -19,3 +21,4 @@ app.mount('/', web.router)
 app.add_exception_handler(HTTPError, handle_http_error)
 app.add_exception_handler(HTTPException, handle_http_exception)
 app.add_exception_handler(RequestValidationError, handle_unprocessable_entity)
+app.add_exception_handler(ValidationError, handle_validation_error)

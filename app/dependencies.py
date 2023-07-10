@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import os
 import typing as t
 from calendar import Calendar
@@ -24,6 +26,15 @@ class TimeFrame(BaseModel):
     @validator('start', 'end', pre=True)
     def to_none(cls, value):
         return value or None
+
+    @validator('end')
+    def validate_time(cls, end, values):
+        start = values['start']
+
+        if end and start and start > end:
+            raise ValueError(f'{start} > {end}')
+
+        return end
 
 
 class Reservation(BaseModel):
