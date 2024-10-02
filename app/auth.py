@@ -15,7 +15,7 @@ def authenticate(
 ):
     is_authenticated = True
 
-    for key, value in credentials.dict().items():
+    for key, value in credentials.model_dump().items():
         env_key = f'basic_auth_{key}'.upper()
 
         is_authenticated = is_authenticated and secrets.compare_digest(

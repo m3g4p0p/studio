@@ -1,5 +1,3 @@
-deta
-fastapi
-jinja2
-python-multipart
-uvicorn
+aiosqlite
+fastapi[all]
+sqlalchemy[asyncio]
