@@ -38,18 +38,32 @@ def reason(code: int):
     return HTTPStatus(code).phrase
 
 
+def error_response(
+    request: Request,
+    context: dict,
+    status_code: int,
+    headers: t.Optional[t.Mapping[str, str]] = None,
+):
+    return templates.TemplateResponse(
+        patch(request),
+        'error.jinja',
+        context,
+        status_code,
+        headers,
+    )
+
+
 @html_only
 def handle_http_error(request: Request, exc: HTTPError):
-    return templates.TemplateResponse('error.jinja', {
-        'request': patch(request),
+    return error_response(request, {
         'reason': exc.reason,
     }, exc.code)
 
 
 @html_only
 def handle_http_exception(request: Request, exc: HTTPException):
-    return templates.TemplateResponse('error.jinja', {
-        'request': patch(request),
+    print(exc.headers)
+    return error_response(request, {
         'reason': reason(exc.status_code),
         'errors': [exc.detail],
     }, exc.status_code, exc.headers)
@@ -60,8 +74,7 @@ def handle_unprocessable_entity(
         request: Request, exc: RequestValidationError):
     status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
 
-    return templates.TemplateResponse('error.jinja', {
-        'request': patch(request),
+    return error_response(request, {
         'reason': reason(status_code),
         'errors': exc.errors(),
     }, status_code)
