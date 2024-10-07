@@ -13,7 +13,7 @@ from .models import Reservation
 
 
 @dataclass
-class CRUD:
+class CRUDUtil:
 
     session: Annotated[AsyncSession, Depends(get_db)]
 

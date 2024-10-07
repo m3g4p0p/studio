@@ -7,21 +7,21 @@ from fastapi import HTTPException
 from sqlalchemy.exc import IntegrityError
 from starlette.status import HTTP_409_CONFLICT
 
-from ..crud import CRUD
+from ..crud import CRUDUtil
 from ..dependencies import Reservation
 
 router = APIRouter()
 
 
 @router.get('/dates/', response_model=list[Reservation])
-async def get_reservations(crud: Annotated[CRUD, Depends()]):
+async def get_reservations(crud: Annotated[CRUDUtil, Depends()]):
     return await crud.get_from_date(date.today())
 
 
 @router.post('/dates/', response_model=Reservation)
 async def create_reservation(
     item: Reservation,
-    crud: Annotated[CRUD, Depends()],
+    crud: Annotated[CRUDUtil, Depends()],
 ):
     try:
         return await crud.insert(item)

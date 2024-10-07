@@ -17,7 +17,7 @@ from fastapi.staticfiles import StaticFiles
 
 from .. import base_path
 from ..auth import authenticate
-from ..crud import CRUD
+from ..crud import CRUDUtil
 from ..dependencies import CalendarMonth
 from ..dependencies import Reservation
 from ..dependencies import db
@@ -46,7 +46,7 @@ router.mount('/static', StaticFiles(
 @router.get('/')
 async def index(
     request: Request,
-    crud: t.Annotated[CRUD, Depends()],
+    crud: t.Annotated[CRUDUtil, Depends()],
     limit: t.Annotated[int, Query(ge=0, le=20)] = 10,
 ):
     result = await crud.get_from_date(pydate.today(), limit)
@@ -76,7 +76,7 @@ async def calendar_date(request: Request, date: pydate):
 @router.get('/calendar/{year}/{month}')
 async def calendar(
     request: Request,
-    crud: t.Annotated[CRUD, Depends()],
+    crud: t.Annotated[CRUDUtil, Depends()],
     current: t.Annotated[CalendarMonth, Depends()],
     highlight: t.Optional[int] = None,
 ):
@@ -94,8 +94,7 @@ async def calendar(
         Reservation.by_date, result,
     ))
 
-    return templates.TemplateResponse('calendar.jinja', {
-        'request': request,
+    return templates.TemplateResponse(request, 'calendar.jinja', {
         'current': current,
         'highlight': highlight,
         'month_dates': month_dates,
@@ -106,7 +105,7 @@ async def calendar(
 @router.get('/reservation/{date}', name='reservation')
 async def get_form(
     request: Request,
-    crud: t.Annotated[CRUD, Depends()],
+    crud: t.Annotated[CRUDUtil, Depends()],
     date: pydate,
 ):
     result = await crud.get_for_date(date)
@@ -116,8 +115,7 @@ async def get_form(
     else:
         reservation = Reservation.model_validate(result)
 
-    return templates.TemplateResponse('form.jinja', {
-        'request': request,
+    return templates.TemplateResponse(request, 'form.jinja', {
         'reservation': reservation,
     })
 
@@ -155,6 +153,4 @@ async def post_form(
 
 @router.get('/inspect')
 async def inspect(request: Request):
-    return templates.TemplateResponse('inspect.jinja', {
-        'request': request,
-    })
+    return templates.TemplateResponse(request, 'inspect.jinja')
