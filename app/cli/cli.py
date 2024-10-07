@@ -1,4 +1,3 @@
-import json
 from argparse import ArgumentParser
 from argparse import ArgumentTypeError
 from argparse import FileType
@@ -15,21 +14,15 @@ class Reservation(BaseModel):
     date: pydate
 
 
-ReservationList = TypeAdapter(list[Reservation])
-
-
 class JSONType(FileType):
+
+    adapter = TypeAdapter(list[Reservation])
 
     def __call__(self, string: str):
         file = super().__call__(string)
 
         try:
-            data = json.load(file)
-        except json.JSONDecodeError as e:
-            raise ArgumentTypeError(*e.args)
-
-        try:
-            return ReservationList.validate_python(data)
+            return self.adapter.validate_json(file.read())
         except ValidationError as e:
             raise ArgumentTypeError(e)
 
@@ -41,4 +34,5 @@ parser.add_argument('--drop', action='store_true')
 
 async def main():
     args_ = parser.parse_args()
+    print(args_.json)
     return args_
