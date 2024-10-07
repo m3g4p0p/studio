@@ -106,8 +106,16 @@ async def calendar(
 @router.get('/reservation/{date}', name='reservation')
 async def get_form(
     request: Request,
-    reservation: Reservation = Depends(Reservation.get),
+    crud: t.Annotated[CRUD, Depends()],
+    date: pydate,
 ):
+    result = await crud.get_for_date(date)
+
+    if result is None:
+        reservation = Reservation(date=date)
+    else:
+        reservation = Reservation.model_validate(result)
+
     return templates.TemplateResponse('form.jinja', {
         'request': request,
         'reservation': reservation,

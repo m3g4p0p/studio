@@ -36,15 +36,6 @@ class Reservation(BaseModel):
         instance = cls.model_validate(data)
         return instance.date, instance
 
-    @classmethod
-    def get(cls, date: pydate):
-        item = db.get(key=str(date))
-
-        if not item:
-            return cls(date=date)
-
-        return cls.model_validate(item)
-
     def split_bands(self):
         return self.band.encode().decode(
             'unicode_escape',
