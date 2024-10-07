@@ -1,17 +1,11 @@
-import os
 import typing as t
 from calendar import Calendar
 from datetime import date as pydate
 
-from deta import Deta
 from fastapi import Request
 from pydantic import BaseModel
 from pydantic import ConfigDict
 from pydantic import field_validator
-
-deta = Deta()
-name = os.getenv('DETA_BASE_NAME', 'reservations')
-db = deta.Base(name)
 
 
 class Reservation(BaseModel):
