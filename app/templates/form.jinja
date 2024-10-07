@@ -24,7 +24,9 @@
       <input type="text" name="band" value="{{ reservation.band }}">
     </label>
 
-    <input type="hidden" name="id" value="{{ reservation.id }}">
+    {% if reservation.id is not none %}
+      <input type="hidden" name="id" value="{{ reservation.id }}">
+    {% endif %}
 
     <div class="actions">
       <button value="put" name="action">Save</button>

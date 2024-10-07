@@ -23,13 +23,6 @@ def date_context(request: Request):
     return {'today': date.today(), 'day_name': day_name}
 
 
-def suppress_none(value):
-    if value is None:
-        return ''
-
-    return value
-
-
 def version_context(request: Request):
     return {'version': os.getenv(
         'DETA_SPACE_APP_VERSION', str(date.today()),
@@ -44,7 +37,6 @@ templates = Jinja2Templates(
         date_context,
         version_context,
     ],
-    finalize=suppress_none,
 )
 
 templates.env.filters['strftime'] = date.strftime
