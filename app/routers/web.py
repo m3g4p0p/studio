@@ -17,6 +17,7 @@ from fastapi.staticfiles import StaticFiles
 
 from .. import base_path
 from ..auth import authenticate
+from ..crud import CRUD
 from ..dependencies import CalendarMonth
 from ..dependencies import Reservation
 from ..dependencies import db
@@ -43,21 +44,15 @@ router.mount('/static', StaticFiles(
 
 
 @router.get('/')
-def index(
+async def index(
     request: Request,
-    limit: int = Query(default=10, ge=0, le=20),
+    crud: t.Annotated[CRUD, Depends()],
+    limit: t.Annotated[int, Query(ge=0, le=20)] = 10,
 ):
-    query = jsonable_encoder({
-        'date?gte': pydate.today(),
-    })
+    result = await crud.get_from_date(pydate.today(), limit)
+    reservations = map(Reservation.model_validate, result)
 
-    reservations = map(
-        Reservation.from_dict,
-        db.fetch(query, limit=limit).items,
-    )
-
-    return templates.TemplateResponse('index.jinja', {
-        'request': request,
+    return templates.TemplateResponse(request, 'index.jinja', {
         'reservations': reservations,
     })
 
