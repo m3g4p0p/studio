@@ -31,7 +31,7 @@ class CRUD:
 
         return self.session.scalars(query)
 
-    def get_by_date(self, from_date: pydate, to_date: pydate):
+    def get_in_date_range(self, from_date: pydate, to_date: pydate):
         query = select(Reservation).filter(
             Reservation.date >= from_date,
             Reservation.date <= to_date,

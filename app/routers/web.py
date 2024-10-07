@@ -76,7 +76,8 @@ async def calendar_date(request: Request, date: pydate):
 @router.get('/calendar/{year}/{month}')
 async def calendar(
     request: Request,
-    current: CalendarMonth = Depends(),
+    crud: t.Annotated[CRUD, Depends()],
+    current: t.Annotated[CalendarMonth, Depends()],
     highlight: t.Optional[int] = None,
 ):
     try:
@@ -84,14 +85,13 @@ async def calendar(
     except IllegalMonthError as e:
         raise HTTPException(status.HTTP_400_BAD_REQUEST, e)
 
-    query = jsonable_encoder({
-        'date?gte': month_dates[0][0],
-        'date?lte': month_dates[-1][-1],
-    })
+    result = await crud.get_in_date_range(
+        from_date=month_dates[0][0],
+        to_date=month_dates[-1][-1],
+    )
 
     reservations = dict(map(
-        Reservation.by_date,
-        db.fetch(query).items,
+        Reservation.by_date, result,
     ))
 
     return templates.TemplateResponse('calendar.jinja', {
