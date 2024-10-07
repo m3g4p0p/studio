@@ -14,3 +14,11 @@ async_session = async_sessionmaker(
     autoflush=False,
     bind=engine,
 )
+
+
+async def get_db():
+    async with async_session() as db:
+        yield db
+
+        if db.in_transaction():
+            await db.commit()
