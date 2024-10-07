@@ -1,25 +1,29 @@
 from datetime import date
-from urllib.error import HTTPError
+from typing import Annotated
 
 from fastapi import APIRouter
+from fastapi import Depends
 from fastapi import HTTPException
-from fastapi.encoders import jsonable_encoder
+from sqlalchemy.exc import IntegrityError
+from starlette.status import HTTP_409_CONFLICT
 
+from ..crud import CRUD
 from ..dependencies import Reservation
-from ..dependencies import db
 
 router = APIRouter()
 
 
-@router.get('/dates/')
-def get_reservations():
-    today = date.today().isoformat()
-    return db.fetch({'date?gte': today}).items
+@router.get('/dates/', response_model=list[Reservation])
+async def get_reservations(crud: Annotated[CRUD, Depends()]):
+    return await crud.get_from_date(date.today())
 
 
-@router.post('/dates/')
-def create_reservation(item: Reservation):
+@router.post('/dates/', response_model=Reservation)
+async def create_reservation(
+    item: Reservation,
+    crud: Annotated[CRUD, Depends()],
+):
     try:
-        return db.insert(jsonable_encoder(item), str(item.date))
-    except HTTPError as e:
-        raise HTTPException(e.code, f'{e.reason} 💀')
+        return await crud.insert(item)
+    except IntegrityError as e:
+        raise HTTPException(HTTP_409_CONFLICT, str(e.orig))
