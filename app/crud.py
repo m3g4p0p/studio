@@ -3,6 +3,7 @@ from datetime import date as pydate
 from typing import Annotated
 
 from fastapi import Depends
+from sqlalchemy import delete
 from sqlalchemy import select
 from sqlalchemy import update
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -55,5 +56,12 @@ class CRUDUtil:
         query = update(Reservation).where(
             Reservation.id == model.id
         ).values(model.model_dump())
+
+        return self.session.execute(query)
+
+    def delete(self, model: ReservationModel):
+        query = delete(Reservation).where(
+            Reservation.id == model.id
+        )
 
         return self.session.execute(query)

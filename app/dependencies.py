@@ -18,7 +18,6 @@ class Reservation(BaseModel):
 
     date: pydate
     band: str = ''
-    key: str = ''
     id: t.Optional[int] = None
     model_config = ConfigDict(from_attributes=True)
 

@@ -9,7 +9,6 @@ from fastapi import Form
 from fastapi import Query
 from fastapi import Request
 from fastapi import status
-from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.responses import RedirectResponse
@@ -20,7 +19,6 @@ from ..auth import authenticate
 from ..crud import CRUDUtil
 from ..dependencies import CalendarMonth
 from ..dependencies import Reservation
-from ..dependencies import db
 from ..patches import PatchedRoute
 from ..templating import templates
 
@@ -123,31 +121,24 @@ async def get_form(
 @router.post('/reservation/{date}')
 async def post_form(
     request: Request,
-    date: pydate,
-    action: Action = Form(),
-    reservation: Reservation = Depends(Reservation.from_form),
+    crud: t.Annotated[CRUDUtil, Depends()],
+    action: t.Annotated[Action, Form()],
+    reservation: t.Annotated[
+        Reservation, Depends(Reservation.from_form)],
 ):
-    redirect_date = date
-
     if action is Action.PUT and reservation.band:
-        data = jsonable_encoder(reservation)
-        key = str(reservation.date)
-        redirect_date = reservation.date
-
-        if date != reservation.date:
-            db.insert(data, key)
+        if reservation.id is None:
+            await crud.insert(reservation)
         else:
-            db.put(data, key)
+            await crud.update(reservation)
 
-    if action is Action.DELETE or \
-            not reservation.band or \
-            date != reservation.date:
-        db.delete(key=reservation.key)
+    if action is Action.DELETE or not reservation.band:
+        await crud.delete(reservation)
 
     return RedirectResponse(request.url_for(
         'calendar',
-        year=redirect_date.year,
-        month=redirect_date.month,
+        year=reservation.date.year,
+        month=reservation.date.month,
     ), status_code=302)
 
 
