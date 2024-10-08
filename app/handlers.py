@@ -62,7 +62,6 @@ def handle_http_error(request: Request, exc: HTTPError):
 
 @html_only
 def handle_http_exception(request: Request, exc: HTTPException):
-    print(exc.headers)
     return error_response(request, {
         'reason': reason(exc.status_code),
         'errors': [exc.detail],
