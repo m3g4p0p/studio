@@ -8,10 +8,11 @@ from starlette.exceptions import HTTPException
 from .handlers import handle_http_error
 from .handlers import handle_http_exception
 from .handlers import handle_unprocessable_entity
+from .lifespan import lifespan
 from .routers import api
 from .routers import web
 
-app = FastAPI()
+app = FastAPI(lifespan=lifespan)
 
 app.mount('/api', api.router)
 app.mount('/', web.router)

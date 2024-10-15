@@ -12,6 +12,9 @@ from ..dependencies import Reservation
 
 router = APIRouter()
 
+@router.get('/health-check')
+def health_check():
+    return {'status': 'ok'}
 
 @router.get('/dates/', response_model=list[Reservation])
 async def get_reservations(crud: Annotated[CRUDUtil, Depends()]):
