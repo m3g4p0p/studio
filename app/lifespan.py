@@ -1,17 +1,18 @@
 import asyncio
-from contextlib import asynccontextmanager
 import logging
 import os
 import sys
+from contextlib import asynccontextmanager
+from random import randint
 
 from fastapi import FastAPI
-from httpx import URL, AsyncClient
+from httpx import AsyncClient
 
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.StreamHandler(sys.stdout))
 logger.setLevel(logging.INFO)
 
-async def health_check(app: FastAPI, delay: int):
+async def health_check(app: FastAPI):
     external_url = os.getenv('RENDER_EXTERNAL_URL')
 
     if not external_url:
@@ -26,11 +27,12 @@ async def health_check(app: FastAPI, delay: int):
             response = await client.get(ping_url)
 
         logger.info(response.json())
+        delay = randint(60, 600)
         await asyncio.sleep(delay)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    task = asyncio.create_task(health_check(app, 10))
+    task = asyncio.create_task(health_check(app))
 
     try:
         yield
