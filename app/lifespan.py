@@ -9,10 +9,7 @@ from fastapi import FastAPI
 from httpx import AsyncClient
 
 logger = logging.getLogger(__name__)
-handler = logging.StreamHandler(sys.stdout)
-formatter = logging.Formatter('%(asctime)s %(message)s')
-handler.setFormatter(formatter)
-logger.addHandler(handler)
+logger.addHandler(logging.StreamHandler(sys.stdout))
 logger.setLevel(logging.INFO)
 
 async def health_check(app: FastAPI):
@@ -27,9 +24,8 @@ async def health_check(app: FastAPI):
 
     while True:
         async with AsyncClient() as client:
-            response = await client.get(ping_url)
+            await client.get(ping_url)
 
-        logger.info(response.json())
         delay = randint(60, 600)
         await asyncio.sleep(delay)
 
