@@ -18,3 +18,5 @@ micros:
           description: Basic Auth Username
         - name: BASIC_AUTH_PASSWORD
           description: Basic Auth Password
+        - name: GLOBAL_REDIRECT_URL
+          description: Global Redirect URL
