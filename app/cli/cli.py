@@ -7,11 +7,13 @@ from pydantic_settings import get_subcommand
 
 from app.cli.commands.base import BaseCommand
 from app.cli.commands.create import CreateCommand
+from app.cli.commands.export import ExportCommand
 
 
 class CliSettings(BaseSettings):
 
     create: CliSubCommand[CreateCommand]
+    export: CliSubCommand[ExportCommand]
 
 
 parser = ArgumentParser()
