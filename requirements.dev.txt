@@ -1,2 +1,4 @@
 -r requirements.txt
+aiosqlite
 python-dotenv
+rich

@@ -1,54 +1,33 @@
-import os
 import typing as t
 from calendar import Calendar
 from datetime import date as pydate
 
-from deta import Deta
 from fastapi import Request
 from pydantic import BaseModel
-from pydantic import validator
-
-deta = Deta()
-name = os.getenv('DETA_BASE_NAME', 'reservations')
-db = deta.Base(name)
+from pydantic import ConfigDict
+from pydantic import field_validator
 
 
 class Reservation(BaseModel):
 
     date: pydate
     band: str = ''
-    key: str = ''
+    id: t.Optional[int] = None
+    model_config = ConfigDict(from_attributes=True)
 
-    @validator('key', always=True)
-    def key_from_date(cls, value, values):
-        return value or values['date']
-
-    @validator('band', always=True)
-    def strip_band(cls, value: str):
+    @field_validator('band')
+    def validate_band(cls, value: str):
         return value.strip()
-
-    @classmethod
-    def from_dict(cls, data):
-        return cls(**data)
 
     @classmethod
     async def from_form(cls, request: Request):
         data = dict(await request.form())
-        return cls.from_dict(data)
+        return cls.model_validate(data)
 
     @classmethod
     def by_date(cls, data):
-        instance = cls.from_dict(data)
+        instance = cls.model_validate(data)
         return instance.date, instance
-
-    @classmethod
-    def get(cls, date: pydate):
-        item = db.get(key=str(date))
-
-        if not item:
-            return cls(date=date)
-
-        return cls.from_dict(item)
 
     def split_bands(self):
         return self.band.encode().decode(
