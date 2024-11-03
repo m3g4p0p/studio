@@ -11,8 +11,9 @@ from .handlers import handle_http_exception
 from .handlers import handle_unprocessable_entity
 from .routers import api
 from .routers import web
+from .settings import settings
 
-app = FastAPI()
+app = FastAPI(debug=settings.develop)
 
 app.mount('/api', api.router)
 app.mount('/', web.router)
@@ -29,4 +30,9 @@ def handle_integrity_error(request, exc):
 
 @app.exception_handler(InterfaceError)
 def handle_interface_error(request, exc):
-    raise HTTPException(500)
+    if settings.develop:
+        reason = str(exc)
+    else:
+        reason = None
+
+    raise HTTPException(500, reason)

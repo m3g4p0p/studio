@@ -21,6 +21,7 @@ class AppSettings(BaseSettings):
 
     sqlalchemy_database_url: str
     basic_auth: BasicAuthSettings
+    develop: bool = False
 
     model_config = SettingsConfigDict(
         env_nested_delimiter='__',
