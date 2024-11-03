@@ -5,6 +5,7 @@ from .settings import settings
 
 engine = create_async_engine(
     settings.sqlalchemy_database_url,
+    pool_pre_ping=True,
     # connect_args={"check_same_thread": False},
 )
 
