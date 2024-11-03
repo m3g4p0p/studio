@@ -3,6 +3,7 @@ from urllib.error import HTTPError
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import InterfaceError
 from starlette.exceptions import HTTPException
 
 from .handlers import handle_http_error
@@ -24,3 +25,8 @@ app.add_exception_handler(RequestValidationError, handle_unprocessable_entity)
 @app.exception_handler(IntegrityError)
 def handle_integrity_error(request, exc):
     raise HTTPException(409)
+
+
+@app.exception_handler(InterfaceError)
+def handle_interface_error(request, exc):
+    raise HTTPException(500)
